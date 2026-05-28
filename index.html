@@ -3,327 +3,244 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Квиз по биохимии — Многовариантный</title>
+<title>Квиз по биохимии — Множественный выбор</title>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #0d1117;
-    --card: #161b22;
-    --card2: #1c2128;
-    --border: #30363d;
-    --text: #e6edf3;
-    --muted: #768390;
-    --teal: #2da44e;
-    --teal-hover: #238636;
-    --teal-glow: rgba(45,164,78,.3);
-    --blue: #388bfd;
-    --blue-bg: #0c2d6b;
-    --blue-border: #1f4fa8;
-    --green: #2da44e;
-    --green-bg: #0d2e1a;
-    --green-border: #1c6132;
-    --green-light: #3fb950;
-    --red: #f85149;
-    --red-bg: #2d1117;
-    --red-border: #8b2020;
-    --orange: #e3b341;
-    --orange-bg: #2d2408;
-    --orange-border: #7d5c00;
-    --purple: #8957e5;
+    --bg: #0d1117; --card: #161b22; --card2: #1c2128; --border: #30363d;
+    --text: #e6edf3; --muted: #768390;
+    --green: #2da44e; --green-hover: #238636; --green-glow: rgba(45,164,78,.3);
+    --green-light: #3fb950; --green-bg: #0d2e1a; --green-border: #1c6132;
+    --purple: #8957e5; --purple-hover: #7950d1;
+    --blue: #388bfd; --blue-bg: #0c2d6b; --blue-border: #1f4fa8;
+    --red: #f85149; --red-bg: #2d1117; --red-border: #8b2020;
+    --orange: #e3b341; --orange-bg: #2d2408; --orange-border: #7d5c00;
   }
-
   body {
     font-family: 'Manrope', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+    background: var(--bg); color: var(--text);
+    min-height: 100vh; display: flex;
+    align-items: center; justify-content: center; padding: 20px;
   }
-
   .screen { display: none; width: 100%; max-width: 580px; }
-  .screen.active { display: flex; flex-direction: column; }
+  .screen.active { display: flex; flex-direction: column; animation: pop .22s ease; }
+  @keyframes pop { 0%{transform:scale(.96);opacity:0} 100%{transform:scale(1);opacity:1} }
 
-  /* ===== HOME ===== */
   #home-screen {
-    background: var(--card);
-    border-radius: 20px;
-    padding: 36px 32px 40px;
-    border: 1px solid var(--border);
+    background: var(--card); border-radius: 20px;
+    padding: 34px 30px 38px; border: 1px solid var(--border);
     box-shadow: 0 20px 60px rgba(0,0,0,.6);
   }
-
   .badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    border: 1.5px solid var(--teal);
-    border-radius: 100px; padding: 5px 14px;
-    color: var(--teal); font-size: 11px; font-weight: 700;
-    letter-spacing: 1.5px; text-transform: uppercase;
-    width: fit-content; margin-bottom: 22px;
+    display: inline-flex; align-items: center;
+    border: 1.5px solid var(--green); border-radius: 100px;
+    padding: 5px 14px; color: var(--green); font-size: 11px;
+    font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    width: fit-content; margin-bottom: 20px;
   }
-
-  .home-title { font-size: clamp(26px,5vw,36px); font-weight: 800; color: #fff; margin-bottom: 8px; line-height: 1.2; }
-  .home-sub { font-size: 14px; color: var(--muted); margin-bottom: 12px; line-height: 1.6; }
-
+  .home-title { font-size: clamp(24px,5vw,34px); font-weight: 800; color: #fff; margin-bottom: 6px; line-height: 1.2; }
+  .home-sub { font-size: 13px; color: var(--muted); margin-bottom: 10px; line-height: 1.6; }
   .multi-note {
     background: var(--orange-bg); border: 1px solid var(--orange-border);
-    border-radius: 10px; padding: 12px 16px; margin-bottom: 28px;
-    font-size: 13px; color: var(--orange); line-height: 1.5;
-    display: flex; gap: 10px; align-items: flex-start;
+    border-radius: 10px; padding: 11px 14px; margin-bottom: 22px;
+    font-size: 12.5px; color: var(--orange); line-height: 1.5;
+    display: flex; gap: 9px; align-items: flex-start;
   }
-  .multi-note .icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .stats-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px; margin-bottom: 18px;
+  }
+  .stat-box {
+    background: var(--card2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 10px; text-align: center;
+  }
+  .stat-num { font-size: 22px; font-weight: 800; }
+  .stat-num.g { color: var(--green-light); }
+  .stat-num.o { color: var(--orange); }
+  .stat-num.b { color: var(--blue); }
+  .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
   .btn {
     width: 100%; border: none; border-radius: 12px;
-    padding: 16px 22px; font-family: 'Manrope', sans-serif;
-    font-size: 16px; font-weight: 700; cursor: pointer;
+    padding: 15px 20px; font-family: 'Manrope', sans-serif;
+    font-size: 15px; font-weight: 700; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    gap: 10px; transition: transform .15s, box-shadow .15s, background .15s;
+    gap: 9px; transition: transform .15s, background .15s, box-shadow .15s;
   }
   .btn:hover { transform: translateY(-2px); }
   .btn:active { transform: translateY(0); }
+  .btn-random { background: var(--purple); color: #fff; margin-bottom: 10px; box-shadow: 0 6px 20px rgba(137,87,229,.3); }
+  .btn-random:hover { background: var(--purple-hover); }
+  .btn-all { background: var(--green); color: #fff; margin-bottom: 10px; box-shadow: 0 6px 20px var(--green-glow); }
+  .btn-all:hover { background: var(--green-hover); }
+  .btn-unknown { background: var(--orange-bg); color: var(--orange); border: 1.5px solid var(--orange-border); margin-bottom: 20px; }
+  .btn-unknown:hover { background: #3d3010; border-color: var(--orange); }
+  .home-hint { text-align: center; color: var(--muted); font-size: 12px; }
 
-  .btn-random {
-    background: var(--purple); color: #fff; margin-bottom: 12px;
-    box-shadow: 0 6px 24px rgba(137,87,229,.35);
-  }
-  .btn-random:hover { background: #7950d1; }
-
-  .btn-all {
-    background: var(--teal); color: #fff; margin-bottom: 24px;
-    box-shadow: 0 6px 24px var(--teal-glow);
-  }
-  .btn-all:hover { background: var(--teal-hover); }
-
-  .home-hint { text-align: center; color: var(--muted); font-size: 13px; }
-
-  /* ===== QUIZ ===== */
   #quiz-screen {
-    background: var(--card);
-    border-radius: 20px; padding: 26px 26px 30px;
-    border: 1px solid var(--border);
+    background: var(--card); border-radius: 20px;
+    padding: 24px 24px 28px; border: 1px solid var(--border);
     box-shadow: 0 20px 60px rgba(0,0,0,.6);
   }
-
-  .quiz-header {
-    display: flex; justify-content: space-between;
-    align-items: center; margin-bottom: 12px;
-  }
-
+  .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
   .q-counter { font-size: 13px; color: var(--muted); font-weight: 600; }
-  .score-badge { display: flex; align-items: center; gap: 5px; color: var(--teal); font-size: 14px; font-weight: 700; }
+  .score-badge { display: flex; align-items: center; gap: 5px; color: var(--green-light); font-size: 14px; font-weight: 700; }
+  .progress-bar { width: 100%; height: 3px; background: var(--border); border-radius: 100px; margin-bottom: 16px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--green); border-radius: 100px; transition: width .4s ease; }
 
-  .progress-bar {
-    width: 100%; height: 3px; background: var(--border);
-    border-radius: 100px; margin-bottom: 20px; overflow: hidden;
-  }
-  .progress-fill { height: 100%; background: var(--teal); border-radius: 100px; transition: width .4s ease; }
-
-  /* Multi-answer badge */
-  .multi-badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: var(--orange-bg); border: 1px solid var(--orange-border);
-    border-radius: 8px; padding: 4px 10px; margin-bottom: 12px;
+  .unknown-banner {
+    display: none; background: var(--orange-bg); border: 1px solid var(--orange-border);
+    border-radius: 10px; padding: 9px 13px; margin-bottom: 12px;
     font-size: 12px; color: var(--orange); font-weight: 600;
+    align-items: center; gap: 8px;
   }
-
-  .question-text {
-    font-size: clamp(15px,3vw,18px); font-weight: 700;
-    line-height: 1.55; color: #fff; margin-bottom: 20px;
+  .unknown-banner.show { display: flex; }
+  .multi-badge {
+    display: none; align-items: center; gap: 6px;
+    background: var(--blue-bg); border: 1px solid var(--blue-border);
+    border-radius: 8px; padding: 4px 10px; margin-bottom: 12px;
+    font-size: 12px; color: var(--blue); font-weight: 600;
   }
+  .multi-badge.show { display: inline-flex; }
 
-  .options-list { display: flex; flex-direction: column; gap: 9px; margin-bottom: 20px; }
+  .question-text { font-size: clamp(14.5px,3vw,17px); font-weight: 700; line-height: 1.55; color: #fff; margin-bottom: 16px; }
+  .options-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
 
   .option-btn {
     width: 100%; background: var(--card2);
     border: 1.5px solid var(--border); border-radius: 10px;
-    padding: 13px 16px; display: flex; align-items: center;
-    gap: 12px; cursor: pointer; text-align: left;
-    transition: border-color .15s, background .15s, transform .1s;
+    padding: 12px 15px; display: flex; align-items: center;
+    gap: 11px; cursor: pointer; text-align: left;
+    transition: border-color .12s, background .12s;
     color: var(--text); font-family: 'Manrope', sans-serif;
-    font-size: 14px; font-weight: 500; line-height: 1.4;
+    font-size: 13.5px; font-weight: 500; line-height: 1.4;
   }
-  .option-btn:hover:not(:disabled):not(.selected) {
-    border-color: var(--blue); background: #161e2e;
-  }
-  .option-btn:disabled { cursor: default; }
-  .option-btn.selected:not(.answered) {
-    border-color: var(--blue); background: var(--blue-bg);
-    color: #58a6ff;
-  }
-  .option-btn.selected:not(.answered) .opt-letter {
-    background: var(--blue); color: #fff;
-  }
+  .option-btn:hover:not([disabled]):not(.selected) { border-color: var(--blue); background: #161e2e; }
+  .option-btn[disabled] { cursor: default; }
+  .option-btn.selected { border-color: var(--blue); background: var(--blue-bg); color: #58a6ff; }
+  .option-btn.selected .opt-letter { background: var(--blue); color: #fff; }
 
   .opt-letter {
-    min-width: 28px; height: 28px; border-radius: 7px;
+    min-width: 27px; height: 27px; border-radius: 7px;
     background: var(--border); display: flex; align-items: center;
-    justify-content: center; font-size: 12px; font-weight: 700;
-    color: var(--muted); flex-shrink: 0; transition: background .15s, color .15s;
+    justify-content: center; font-size: 11px; font-weight: 700;
+    color: var(--muted); flex-shrink: 0; transition: background .12s, color .12s;
   }
-
   .opt-text { flex: 1; }
-  .opt-icon { font-size: 16px; opacity: 0; flex-shrink: 0; transition: opacity .2s; }
+  .opt-icon { font-size: 15px; opacity: 0; flex-shrink: 0; transition: opacity .15s; }
 
-  /* Answer reveal states */
-  .option-btn.correct {
-    border-color: var(--green-border) !important;
-    background: var(--green-bg) !important;
-    color: var(--green-light) !important;
+  .option-btn.state-correct {
+    border-color: var(--green-border) !important; background: var(--green-bg) !important; color: var(--green-light) !important;
   }
-  .option-btn.correct .opt-letter { background: var(--green) !important; color: #fff !important; }
-  .option-btn.correct .opt-icon { opacity: 1; }
+  .option-btn.state-correct .opt-letter { background: var(--green) !important; color: #fff !important; }
+  .option-btn.state-correct .opt-icon { opacity: 1; }
 
-  .option-btn.wrong {
-    border-color: var(--red-border) !important;
-    background: var(--red-bg) !important;
-    color: var(--red) !important;
+  .option-btn.state-wrong {
+    border-color: var(--red-border) !important; background: var(--red-bg) !important; color: var(--red) !important;
   }
-  .option-btn.wrong .opt-letter { background: #8b2020 !important; color: #fff !important; }
-  .option-btn.wrong .opt-icon { opacity: 1; }
+  .option-btn.state-wrong .opt-letter { background: #8b2020 !important; color: #fff !important; }
+  .option-btn.state-wrong .opt-icon { opacity: 1; }
 
-  /* Action row */
-  .action-row { display: flex; gap: 10px; }
-
-  .btn-check {
-    flex: 1; background: var(--teal); color: #fff;
-    box-shadow: 0 4px 16px var(--teal-glow); font-size: 15px;
-  }
-  .btn-check:hover { background: var(--teal-hover); }
-  .btn-check:disabled { opacity: .35; cursor: default; transform: none; }
-
-  .btn-next {
-    flex: 1; background: var(--card2); color: var(--text);
-    border: 1.5px solid var(--border); font-size: 15px;
-    display: none;
-  }
-  .btn-next.visible { display: flex; }
-  .btn-next:hover { border-color: var(--teal); color: var(--teal); }
-
-  /* Feedback bar */
   .feedback-bar {
-    display: none; border-radius: 10px; padding: 10px 14px;
-    font-size: 13px; font-weight: 600; margin-bottom: 14px;
-    line-height: 1.4;
+    display: none; border-radius: 10px; padding: 9px 13px;
+    font-size: 12.5px; font-weight: 600; margin-bottom: 12px; line-height: 1.4;
   }
   .feedback-bar.show { display: block; }
   .feedback-bar.ok { background: var(--green-bg); border: 1px solid var(--green-border); color: var(--green-light); }
   .feedback-bar.partial { background: var(--orange-bg); border: 1px solid var(--orange-border); color: var(--orange); }
   .feedback-bar.fail { background: var(--red-bg); border: 1px solid var(--red-border); color: var(--red); }
 
-  /* ===== RESULT ===== */
+  .action-row { display: flex; gap: 9px; }
+  .btn-check { flex: 1; background: var(--green); color: #fff; box-shadow: 0 4px 14px var(--green-glow); font-size: 14px; }
+  .btn-check:hover { background: var(--green-hover); }
+  .btn-check:disabled { opacity: .35; cursor: default; transform: none; }
+  .btn-next { flex: 1; background: var(--card2); color: var(--text); border: 1.5px solid var(--border); font-size: 14px; display: none; }
+  .btn-next.visible { display: flex; }
+  .btn-next:hover { border-color: var(--green); color: var(--green-light); }
+
   #result-screen {
-    background: var(--card); border-radius: 20px; padding: 40px 30px;
+    background: var(--card); border-radius: 20px; padding: 36px 28px;
     border: 1px solid var(--border); box-shadow: 0 20px 60px rgba(0,0,0,.6);
     text-align: center; align-items: center;
   }
-
-  .result-emoji { font-size: 60px; margin-bottom: 18px; }
-  .result-title { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 6px; }
-  .result-sub { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
-
-  .result-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 12px; width: 100%; margin-bottom: 28px;
-  }
-  .res-box {
-    background: var(--card2); border: 1px solid var(--border);
-    border-radius: 12px; padding: 18px 12px;
-  }
-  .res-num { font-size: 36px; font-weight: 800; }
-  .res-num.green { color: var(--green-light); }
-  .res-num.orange { color: var(--orange); }
-  .res-num.blue { color: var(--blue); }
-  .res-num.purple { color: var(--purple); }
-  .res-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
-
-  .result-btns { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+  .result-emoji { font-size: 56px; margin-bottom: 16px; }
+  .result-title { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 5px; }
+  .result-sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+  .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-bottom: 22px; }
+  .res-box { background: var(--card2); border: 1px solid var(--border); border-radius: 12px; padding: 16px 10px; }
+  .res-num { font-size: 32px; font-weight: 800; }
+  .res-num.g { color: var(--green-light); }
+  .res-num.o { color: var(--orange); }
+  .res-num.b { color: var(--blue); }
+  .res-num.p { color: var(--purple); }
+  .res-label { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .result-btns { width: 100%; display: flex; flex-direction: column; gap: 9px; }
   .btn-home { background: var(--card2); color: var(--text); border: 1.5px solid var(--border); }
-  .btn-home:hover { border-color: var(--teal); color: var(--teal); }
-
-  @keyframes pop { 0%{transform:scale(.96);opacity:0} 100%{transform:scale(1);opacity:1} }
-  .screen.active { animation: pop .22s ease; }
+  .btn-home:hover { border-color: var(--green); color: var(--green-light); }
 </style>
 </head>
 <body>
 
-<!-- HOME -->
 <div id="home-screen" class="screen active">
   <div class="badge">⚗️ Биохимия</div>
   <h1 class="home-title">Квиз — Множественный выбор</h1>
-  <p class="home-sub">190 вопросов · Метаболизм, ферменты, молекулярная биология</p>
+  <p class="home-sub">Выбери все правильные варианты, затем нажми «Проверить»</p>
   <div class="multi-note">
-    <span class="icon">⚠️</span>
-    <span>В каждом вопросе может быть <strong>несколько правильных ответов</strong>. Выбери все правильные и нажми «Проверить».</span>
+    <span>⚠️</span>
+    <span>В каждом вопросе может быть <strong>несколько правильных ответов</strong>.</span>
   </div>
-  <button class="btn btn-random" onclick="startQuiz(20)">🎲 Случайные 20 вопросов</button>
-  <button class="btn btn-all" onclick="startQuiz(0)">📚 Все 190 вопросов</button>
-  <p class="home-hint">Выберите режим и начните тест</p>
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-num b">190</div><div class="stat-label">Всего вопросов</div></div>
+    <div class="stat-box"><div class="stat-num g">153</div><div class="stat-label">С ответами</div></div>
+    <div class="stat-box"><div class="stat-num o">37</div><div class="stat-label">Без ответов</div></div>
+  </div>
+  <button class="btn btn-random" onclick="startQuiz('random')">🎲 Случайные 20 вопросов</button>
+  <button class="btn btn-all" onclick="startQuiz('all')">📚 Все 153 вопросов с ответами</button>
+  <button class="btn btn-unknown" onclick="startQuiz('unknown')">❓ Вопросы без ответов (37 шт.)</button>
+  <p class="home-hint">Режим «Без ответов» — просмотр без проверки</p>
 </div>
 
-<!-- QUIZ -->
 <div id="quiz-screen" class="screen">
   <div class="quiz-header">
     <span class="q-counter" id="q-counter">Вопрос 1 / 20</span>
     <span class="score-badge">✓ <span id="score-num">0</span></span>
   </div>
   <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-
-  <div class="multi-badge" id="multi-badge">✏️ Выберите <span id="correct-count-hint"></span> правильных ответа</div>
-
+  <div class="unknown-banner" id="unknown-banner">❓ Правильный ответ не определён — изучи варианты</div>
+  <div class="multi-badge" id="multi-badge">✏️ Правильных ответов: <span id="correct-count-hint"></span></div>
   <p class="question-text" id="question-text"></p>
-
   <div class="options-list" id="options-list"></div>
-
   <div class="feedback-bar" id="feedback-bar"></div>
-
   <div class="action-row">
     <button class="btn btn-check" id="btn-check" disabled onclick="checkAnswer()">✓ Проверить</button>
     <button class="btn btn-next" id="btn-next" onclick="nextQuestion()">Следующий →</button>
   </div>
 </div>
 
-<!-- RESULT -->
 <div id="result-screen" class="screen">
   <div class="result-emoji" id="result-emoji">🏆</div>
   <h2 class="result-title" id="result-title">Отличный результат!</h2>
   <p class="result-sub" id="result-sub">Тест завершён</p>
   <div class="result-grid">
-    <div class="res-box">
-      <div class="res-num green" id="res-correct">0</div>
-      <div class="res-label">Правильно</div>
-    </div>
-    <div class="res-box">
-      <div class="res-num orange" id="res-partial">0</div>
-      <div class="res-label">Частично</div>
-    </div>
-    <div class="res-box">
-      <div class="res-num blue" id="res-total">0</div>
-      <div class="res-label">Всего вопросов</div>
-    </div>
-    <div class="res-box">
-      <div class="res-num purple" id="res-pct">0%</div>
-      <div class="res-label">Точность</div>
-    </div>
+    <div class="res-box"><div class="res-num g" id="res-correct">0</div><div class="res-label">Правильно</div></div>
+    <div class="res-box"><div class="res-num o" id="res-partial">0</div><div class="res-label">Частично</div></div>
+    <div class="res-box"><div class="res-num b" id="res-total">0</div><div class="res-label">Вопросов</div></div>
+    <div class="res-box"><div class="res-num p" id="res-pct">0%</div><div class="res-label">Точность</div></div>
   </div>
   <div class="result-btns">
-    <button class="btn btn-random" onclick="startQuiz(20)">🎲 Ещё 20 случайных</button>
-    <button class="btn btn-all" onclick="startQuiz(0)">📚 Все вопросы снова</button>
+    <button class="btn btn-random" onclick="startQuiz('random')">🎲 Ещё 20 случайных</button>
+    <button class="btn btn-all" onclick="startQuiz('all')">📚 Все вопросы снова</button>
+    <button class="btn btn-unknown" onclick="startQuiz('unknown')">❓ Вопросы без ответов</button>
     <button class="btn btn-home" onclick="goHome()">← На главную</button>
   </div>
 </div>
 
 <script>
-const QUESTIONS = [{"q": "Какие четыре  процесса протекают при катаболизме", "opts": ["Расщепление белков", "Расщепление жиров", "Расщепление  углеводов", "Биосинтез жиров", "Расщепление нуклеиновых кислот"], "correct": [0, 1, 2, 4]}, {"q": "При катаболизме происходит", "opts": ["Биосинтез углеводов", "Расщепление жиров", "Биосинтез жиров", "Биосинтез белков", "Расщепление белков"], "correct": [1, 4]}, {"q": "Выберите ингибиторов α-кетоглутаратдегидрогеназы", "opts": ["AДФ", "АТФ", "НАДН", "Сукцинил-КоА"], "correct": [1, 2, 3]}, {"q": "Процессы при анаболизме", "opts": ["Биосинтез белков", "Биосинтез углеводов", "Расщепление белков", "Расщепление жиров", "Биосинтез жиров"], "correct": [0, 1, 4]}, {"q": "Аллостерические ингибиторы фермента глутаминсинтетазы?", "opts": ["АМФ", "глюкоза-6-фосфат", "глицин, аланин", "АТФ", "глюкоза"], "correct": [0, 1, 2, 3, 4]}, {"q": "Апопротеины, участвующие в регуляции активности ферментов метаболизма липопротеинов?", "opts": ["Apo A1", "Apo B48", "Apo C II", "Apo B100"], "correct": [0, 2]}, {"q": "Биохимические функции цикла Кребса", "opts": ["Энергетическая", "Амфиболическая", "Катаболическая", "Резервная"], "correct": [0, 1, 2]}, {"q": "В каких процессах синтеза в печени используется НАДФН2?", "opts": ["Жирные кислоты", "Мевалоновая кислота", "Глюкоза", "Ацетоацетат"], "correct": [0, 1, 3]}, {"q": "В каких тканях активно осуществляется пентозофосфатный путь?", "opts": ["Жировая ткань", "Нервная ткань", "Молочные железы", "В эритроцитах"], "correct": [0, 2, 3]}, {"q": "В непрямом окислительном дезаминировании участвуют:", "opts": ["Аминотрансфераза", "Глутаматдегидрогеназа", "Тиамин", "Никотинамиддинуклеотид", "L-оксидаза"], "correct": [0, 1, 3]}, {"q": "В организме аммиак образуется при:", "opts": ["Распаде гликогена", "Дезаминировании аминокислот", "Дезаминировании биогенных аминов", "Катаболизме пуринов, пиримидинов", "Гниении белков в кишечнике"], "correct": [1, 2, 3, 4]}, {"q": "Выберите 3 группы ферментов в крови:", "opts": ["Секреторные", "Индикаторные", "Экскреторные", "Гонадотропные", "Лимфотропные"], "correct": [0, 1, 2]}, {"q": "Выберите 4 характеристики для непрямого билирубина:", "opts": ["Конечный продукт распада гема", "Транспортируется в комплексе с альбумином", "Не растворим в воде", "Образует комплекс с глюкуроновой кислотой", "Дает косвенную реакцию с диазореактивом"], "correct": [0, 1, 2, 4]}, {"q": "Выберите 4 характеристики для прямого билирубина:", "opts": ["Конечный продукт распада гема", "Транспортируется в комплексе с альбумином", "растворим в воде", "Образует комплекс с глюкуроновой кислотой", "Образуется в печени"], "correct": [0, 2, 3, 4]}, {"q": "Выберите активаторы ПДК.", "opts": ["Пируват", "Ацетил-КоА", "Са", "НАДН+Н"], "correct": [0, 2]}, {"q": "Выберите ингибиторов общих путей катаболизма.", "opts": ["AДФ", "АТФ", "НАДН", "НАДФ"], "correct": [1, 2]}, {"q": "Выберите индикаторные ферменты плазмы крови?", "opts": ["Ферменты, участвующие в свертывании крови", "Холинэстераза", "АЛТ", "АСТ", "Щелочная фосфатаза"], "correct": [0, 2, 3]}, {"q": "Выберите клинических проявлений галактоземии.", "opts": ["Цирроз печени", "Желтуха", "Катаракта", "Избыточный вес"], "correct": [0, 1, 2]}, {"q": "Выберите ключевые ферменты гликолиза.", "opts": ["Гексокиназа", "Фосфофруктокиназа 1", "пируваткиназа", "Пируваткарбоксилаза"], "correct": [0, 1, 2]}, {"q": "Выберите ключевые ферменты глюконеогенеза", "opts": ["Пируваткиназа", "Пируваткарбоксилаза", "Фосфоенолпируваткарбоксилаза", "глюкозо-6-фосфатаза"], "correct": [1, 2, 3]}, {"q": "Выберите ключевые ферменты цикла трикарбоновых кислот.", "opts": ["Цитратсинтаза", "Малатдегидрогеназа", "Изоцитратдегидрогеназа", "α-кетоглутаратдегидрогеназа"], "correct": [0, 2, 3]}, {"q": "Выберите коферменты ферментов, входящих в состав пируватдегидрогеназного комплекса.", "opts": ["НАД, ФАД", "ТДФ", "NADF", "Коэнзим-А"], "correct": [0, 1, 3]}, {"q": "Выберите НАД-зависимые ферменты цикла Кребса.", "opts": ["Изоцитратдегидрогеназа", "α-Кетоглутаратдегидрогеназа", "Сукцинатдегидрогеназа", "Малатдегидрогеназа"], "correct": [0, 1, 3]}, {"q": "Выберите первое, второе и третье вещества, образующиеся в орнитиновом цикле синтеза мочевины:", "opts": ["Карбамоилфосфат", "Цитруллин", "Аргининосукцинат", "Орнитин", "Фумарат"], "correct": [0, 1, 2]}, {"q": "Выберите правильные варианты?", "opts": ["Подагрические узлы называются тофусами", "Кристаллы мононатриевой соли мочевой кислоты откладываются в суставах", "Частота встречаемости у мужчин в 20 раз выше, чем у женщин", "Не приводит к почечной недостаточности"], "correct": [0, 1, 2]}, {"q": "Выберите промежуточные продукты гликолиза.", "opts": ["Диоксиацетонофосфат", "1,3-бисфосфоглицерат", "Глицеральдегид", "Фруктозо-2,6-дифосфат"], "correct": [0, 1]}, {"q": "Выберите секреторные ферменты плазмы крови?", "opts": ["Ферменты, участвующие в свертывании крови", "Холинэстераза", "АЛТ", "АСТ", "Ishqoriy fosfataza"], "correct": [0, 1, 3]}, {"q": "Выберите состояния при подагре?", "opts": ["Воспаление большого пальца ноги", "Приступы болезни длятся часами", "Накопление и увеличение количества уратов", "Приводит к почечной недостаточности"], "correct": [0, 2, 3]}, {"q": "Выберите специфические дисахаридазы, которые переваривают дисахариды в кишечнике.", "opts": ["Мальтаза", "Лактаза", "Сахараза", "Галактаза"], "correct": [0, 1, 2, 3]}, {"q": "Выберите субстраты для реакций окислительного декарбоксилирования цикла Кребса.", "opts": ["Изоцитрат", "Малат", "α-кетоглутарат", "оксалоацетат"], "correct": [0, 2]}, {"q": "Выберите субстраты окислительного фосфорилирования в цикле лимонной кислоты.", "opts": ["Цитрат", "Изоцитрат", "Малат", "Сукцинат"], "correct": [0, 1, 2, 3]}, {"q": "Выберите субстраты,  субстратного фосфорилирования в гликолизе.", "opts": ["1,3-бисфосфоглицерат", "Фруктозо-1,6-дифосфат", "3-фосфоглицерат", "Фосфоенолпируват"], "correct": [0, 3]}, {"q": "Выберите ферменты, входящие в состав пируватдегидрогеназного комплекса.", "opts": ["Пируватдекарбоксилаза", "Пируваткарбоксилаза", "Дигидролипоилтрансацетилаза", "Дигидролипоилдегидрогеназа"], "correct": [0, 2, 3]}, {"q": "Выберите ферменты, участвующие в фосфорилировании глюкозы.", "opts": ["Глюкозо-6-фосфатаза", "Глюкокиназа", "Гексокиназа", "Глюкозофосфорилаза"], "correct": [1, 2]}, {"q": "Где синтезируются белки плазмы крови?", "opts": ["В печени", "В клетках ретикулоэндотелиальной системы", "В мышцах", "В селезенке", "В ткани мозга"], "correct": [0, 1]}, {"q": "Гиперинсулинемия биохимические последствия", "opts": ["Усиление липогенеза", "Подавление глюконеогенеза", "Активация гормон чувствительной липазы", "Снижение кетогенеза", "Повышение синтеза триглицеридов"], "correct": [0, 1, 3, 4]}, {"q": "Гипоталамус-гипофизарная регуляция", "opts": ["ТТГ стимулирует синтез тиреоидных гормонов", "Т3 оказывает отрицательную обратную связь на гипофиз", "АКТГ синтезируется в нейрогипофизе", "Кортизол подавляет секрецию КРГ", "Либерины секретируются гипоталамусом"], "correct": [0, 1, 3, 4]}, {"q": "Глицин используется в синтезе чего из перечисленного?", "opts": ["холин", "креатин", "жёлчные кислоты", "пуриновое основание", "в синтезе порфиринового кольца"], "correct": [1, 2, 3, 4]}, {"q": "Гормоны надпочечников", "opts": ["Глюкокортикоиды", "Минерало кортикоиды", "Андрогены", "Тироиды", "катехоламины"], "correct": [0, 1, 2, 4]}, {"q": "Гормоны с гипергликемическим действием", "opts": ["Инсулин", "Адреналин", "Глюкагон", "Кортизол"], "correct": [1, 2, 3]}, {"q": "Два этапа пентозофосфатного шунта?", "opts": ["Окислительный", "Изомеризуемый", "Неокислительный", "Востоновительный"], "correct": [0, 2]}, {"q": "Для гормонов действующих через ядерные рецепторы характерны", "opts": ["Липофильность", "Связывание с ДНК", "Быстрое развитие эффекта", "Синтез из холестерина и аминокислот", "транспорт в крови в свободном виде"], "correct": [0, 1, 3]}, {"q": "Для каких групп аминокислот в кишечнике существуют специальные транспортеры для переноса?", "opts": ["Основные", "Кислые", "Ароматические", "Иминокислоты", "Нейтральные"], "correct": [0, 1, 4]}, {"q": "Для катехоламинов характерно", "opts": ["Синтез из тирозина", "Короткий период полужизни", "Действие через Г белки", "Прямое влияние на транскрипцию", "Актваия протеин киназы А"], "correct": [0, 1, 2, 4]}, {"q": "Из каких амино кислот синтезируется амино группы в мочевине", "opts": ["фенилаланин", "глутамат", "глицин", "глутамин", "аспартат"], "correct": [3, 4]}, {"q": "Из чего образуется глюкоза в  глюконеогенеза?", "opts": ["Гликоген", "Жрная кислота", "Аминокислота", "Пируват"], "correct": [2, 3]}, {"q": "Из-за дефекта орнитинкарбамоилтрансферазы (при гипераммониемиях) наблюдается?", "opts": ["Накопление карбамоилфосфата в митохондриях", "Увеличение концентрации цитруллина", "Повышение активности Карбамоилтрансферазы II", "Выделение оротата с мочой", "Увеличение концентрации аргининосукцината"], "correct": [0, 3]}, {"q": "Инсулин -", "opts": ["активирует гликоген синтазу", "активирует гексокиназу", "ингибирует гексокиназу", "ингибирует гликоген фосфорилазу", "активирует липопротеинлипазу"], "correct": []}, {"q": "Инсулиновый рецептор и сигнальный путь", "opts": ["Обладает тирозин киназной активностью", "Происходит аутофосфорилирование", "Активация PI3 киназы", "Действует через цАМФ", "IRS-белки участвуют в передаче сигнала"], "correct": []}, {"q": "К печеночным формам гликогенозов относятся?", "opts": ["болезнь фон Гирке", "болезнь Мак-Ардля", "болезнь Помпе", "болезнь Герца"], "correct": [2]}, {"q": "К чему приводит снижение концентрации α-кетоглутарата?", "opts": ["К увеличению количества АТФ", "К гиперэнергетическому состоянию", "К снижению концентрации метаболитов цикла Кребса", "К гипоэнергетическому состоянию", "К снижению обмена аминокислот"], "correct": []}, {"q": "К чему приводит снижение уровня глюкозы в крови?", "opts": ["К выработке инсулина", "К выработке адреналина", "К выработке глюкагона", "К выработке АДГ", "К выработке пролактина"], "correct": []}, {"q": "Какие аминокислоты при дезаминировании превращаются в пировиноградную кислоту?", "opts": ["Аланин", "Фенилаланин, лизин", "Аспартат, аспарагин", "Серин, треонин", "Валин"], "correct": []}, {"q": "Какие аминокислоты при обмене превращаются в α-кетоглутаровую кислоту?", "opts": ["Аргинин, гистидин", "Метионин, треонин", "Лейцин, глутамат", "Пролин, лизин", "Глутамат, глутамин"], "correct": [0, 2, 3, 4]}, {"q": "Какие аминокислоты при обмене превращаются в ацетил-КоА?", "opts": ["Фенилаланин, триптофан", "Аланин, цистеин", "Пролин, гистидин", "Метионин, валин", "Лейцин"], "correct": [4]}, {"q": "Какие аминокислоты при обмене превращаются в ацетоацетил-КоА?", "opts": ["Фенилаланин, лизин", "Аланин, серин", "Глицин, треонин", "Глицин, гистидин", "Тирозин, лейцин"], "correct": [0, 4]}, {"q": "Какие аминокислоты при обмене превращаются в сукцинил-КоА?", "opts": ["Метионин, треонин", "Серин, цистеин", "Гистидин, глицин", "Фенилаланин, лейцин", "Изолейцин, валин"], "correct": [0, 4]}, {"q": "Какие вещества почки могут синтезировать?", "opts": ["ренин", "эритропоэтин (EPO)", "инсулин", "1,25-дигидроксивитамин D (кальцитриол)", "альдостерон"], "correct": [0, 1, 3]}, {"q": "Какие заболевания относятся к хромосомным аномалиям?", "opts": ["Синдром Дауна", "Синдром Клайнфельтера", "Муковисцидоз", "Синдром Шерешевского–Тёрнера", "Фенилкетонурия"], "correct": [0, 1]}, {"q": "Какие из перечисленных белков и ферментов содержат гем?", "opts": ["Гемоглобин", "Пероксидаза", "Трансферрин", "Цитохром С", "Цитохром а3"], "correct": [0]}, {"q": "Какие из перечисленных белков синтезируются в печени?", "opts": ["Альбумин", "Альфа-глобулин", "Бета-глобулин", "Гамма-глобулин", "Протромбин"], "correct": [0, 4]}, {"q": "Какие изменения биохимии крови характерны для почечной недостаточности?", "opts": ["гиперкалиемия", "гипонатриемия", "повышение креатинина и мочевины", "метаболический алкалоз", "снижение уровня EPO и анемия"], "correct": [0, 2]}, {"q": "Какие изменения характерны для мышечного метаболизма при интенсивной анаэробной нагрузке?", "opts": ["накопление лактата (лактат-ацидоз)", "быстрая деградация креатинфосфата", "увеличение потребления О2 (окислительный метаболизм)", "повышение соотношения NADH/NAD+ в цитоплазме", "активация гликолиза за счёт фосфорилирования фосфофруктокиназы-1"], "correct": []}, {"q": "Какие изменения электролитов характерны для гиперальдостеронизма?", "opts": ["гипокалиемия", "гипернатриемия", "метаболический алкалоз", "гиперкальциемия", "гипомагниемия"], "correct": []}, {"q": "Какие ингибиторы ПДК следует выбрать?", "opts": ["Пируват", "Ацетил-КоА", "Ка", "НАДН+Г"], "correct": []}, {"q": "Какие кодоны относятся к стоп-кодонам?", "opts": ["UAA", "UAG", "UGA", "AUG", "UGG"], "correct": []}, {"q": "Какие компоненты входят в состав нуклеотида ДНК?", "opts": ["Азотистое основание", "Фосфатная группа", "Дезоксирибоза", "Рибоза", "Аминокислота"], "correct": []}, {"q": "Какие липотропные вещества защищают печень от жировой дистрофии?", "opts": ["Холинфосфатиды", "Метионин", "Гликоген", "Глюкоза"], "correct": []}, {"q": "Какие маркёры повреждения скелетных мышц определяют в крови?", "opts": ["креатинкиназа (CK, особенно CK-MM)", "лактатдегидрогеназа (LDH)", "миоглобин", "аланинаминотрансфераза (ALT)", "карнитин в плазме"], "correct": []}, {"q": "Какие механизмы обеспечивают концентрацию мочи в нефроне?", "opts": ["контрградиентная система в петле Генле", "водопроницаемость собирательных каналов, регулируемая ADH", "активный транспорт натрия в восходящем плече петли Генле", "реабсорбция глюкозы в проксимальном канальце", "секреция органических анионов в канальцах"], "correct": []}, {"q": "Какие механизмы способствуют поддержанию калиевого гомеостаза почками?", "opts": ["секреция K+ в собирательных трубочках под действием альдостерона", "реабсорбция K+ в проксимальном канальце и петле Генле", "активный выброс K+ через Na+/K+-АТФазу в клетках канальцев", "экскреция K+ только через потоотделение, не почками", "влияние кислотно-щелочного состояния на перераспределение K+"], "correct": []}, {"q": "Какие молекулы обычно секретируются в проксимальном канальце?", "opts": ["органические кислоты (например, PAH)", "креатинин", "глюкоза", "лекарственные соединения (антибиотики, диуретики)", "белки большого размера"], "correct": []}, {"q": "Какие молекулы участвуют в образование пептидной связи?", "opts": ["Аминокислоты", "рРНК", "тРНК", "ДНК", "Фосфолипиды"], "correct": []}, {"q": "Какие молекулярные механизмы участвуют в регулировании митохондриальной биогенеза в мышцах при тренировке?", "opts": ["активация PGC-1α (коактиватор γ-рецептора)", "увеличение митохондриальной ДНК и митохондриальных белков", "снижение экспрессии цитохромов дыхательной цепи", "активация AMPK при энергетическом стрессе", "увеличение капилляризации и доставки кислорода"], "correct": []}, {"q": "Какие мутации могут привести к изменению аминокислотной последовательности?", "opts": ["Миссенс", "Нонсенс", "Гомологичная", "Синонимическая", "Транзиция без изменения кодона"], "correct": []}, {"q": "Какие мутации могут приводить к изменению аминокислотной последовательности белка?", "opts": ["Миссенс", "Нонсенс", "Гомологичная", "Синонимическая", "Транзиция без изменения кодона"], "correct": []}, {"q": "Какие нарушения биохимии мышц характерны для наследственных миопатий с нарушением митохондрий?", "opts": ["снижение оксидативного фосфорилирования", "повышенное образование лактата в покое", "гиперфосфатазия крови", "повышенная утомляемость и слабость при аэробных нагрузках", "уменьшение митохондриальной ДНК в клетках"], "correct": []}, {"q": "Какие нарушения могут привести к снижению синтеза белка?", "opts": ["Мутация старт-кодона", "Ингибирование рибосом", "Синонимическая мутация", "Нарушение сплайсинга", "Метилирование ДНК"], "correct": []}, {"q": "Какие нуклеотиды образуются в результате воздействия панкреатической ДНКазы на нуклеиновые кислоты?", "opts": ["Полинуклеотид", "Мононуклеотид", "Дитринуклеотид", "Олигонуклеотид"], "correct": []}, {"q": "Какие одноуглеродные соединения участвуют в синтезе пуриновых оснований?", "opts": ["Формильная группа", "Метенилгруппа", "Метильная группа", "Оксиметильная группа"], "correct": []}, {"q": "Какие последствия может иметь накопление мутаций?", "opts": ["Геномная нестабильность", "Онкогенез", "Усиление трансляции", "Наследственные заболевания", "Повышение сплайсинга"], "correct": []}, {"q": "Какие протеолитические ферменты есть в кишечном соке?", "opts": ["Пепсин", "Аланинаминопептидаза", "Трипсин", "Гастриксин", "Амилаза"], "correct": []}, {"q": "Какие процессы зависят от ферментативной активности?", "opts": ["Репликация", "Транскрипция", "Трансляция", "Диффузия", "Осмос"], "correct": []}, {"q": "Какие процессы наблюдаются в результате нарушения функции печени?", "opts": ["Повышение уровня аммиака", "Увеличение непрямого билирубина", "Увеличение уровня глюкозы", "Снижение уровня альбумина", "Снижение уровня мочевины"], "correct": []}, {"q": "Какие процессы относятся к посттранскрипционной модификации мРНК?", "opts": ["Кэпирование 5'-конца", "Полиаденилирование 3'-конца", "Сплайсинг", "Терминация транскрипции", "Репликация"], "correct": []}, {"q": "Какие процессы относятся к экспрессии генов?", "opts": ["Транскрипция", "Трансляция", "Посттранскрипционная обработка", "Репликация", "Репарация"], "correct": []}, {"q": "Какие процессы происходят при восстановлении после интенсивной физической нагрузки (оксидативный посткомпенсационный период)?", "opts": ["восстановление запасов креатинфосфата", "окисление накопленного лактата в печени и мышцах", "синтез гликогена (гликогенез) в мышцах", "длительное повышение уровня катехоламинов полностью прекращается сразу после нагрузки", "повышенное поглощение аминокислот для синтеза белка"], "correct": []}, {"q": "Какие процессы происходят только у эукариот?", "opts": ["Сплайсинг", "Кэпирование мРНК", "Репликация", "Трансляция", "Полиаденилирование"], "correct": []}, {"q": "Какие процессы связаны с реализацией генетической информации?", "opts": ["Репликация", "Транскрипция", "Трансляция", "Апоптоз", "Митоз"], "correct": []}, {"q": "Какие процессы синтеза липидов происходят только в печени?", "opts": ["Синтез холестерина", "Синтез кетоновых тел", "Окисление кетоновых тел", "Синтез хиломикронов"], "correct": []}, {"q": "Какие процессы требуют участия РНК?", "opts": ["Транскрипция", "Трансляция", "Репликация", "Репарация", "Сплайсинг"], "correct": []}, {"q": "Какие пути детоксикации этилового спирта в печени?", "opts": ["Немикросомальное окисление", "Микросомальное окисление", "Гидролиз", "Конъюгация"], "correct": []}, {"q": "Какие различия существуют между транскрипцией у прокариот и эукариот?", "opts": ["Наличие нескольких РНК-полимераз у эукариот", "Пространственное разделение транскрипции и трансляции", "Использование РНК-полимеразы", "Наличие хроматина у эукариот", "Синтез РНК в направлении 3'→5'"], "correct": []}, {"q": "Какие свойства характерны для генетического кода?", "opts": ["Триплетность", "Вырожденность", "Универсальность", "Перекрываемость", "Случайность"], "correct": []}, {"q": "Какие свойства характерны для молекулы РНК?", "opts": ["Обычно одноцепочечная", "Содержит тимин", "Содержит урацил", "Синтезируется на матрице ДНК", "Всегда имеет двойную спираль"], "correct": [0, 2, 3]}, {"q": "Какие симптомы входят в гипераммониемию?", "opts": ["тошнота", "спутанность речи", "судорожная дрожь", "головокружение", "потеря сознания"], "correct": [0, 1, 2, 3, 4]}, {"q": "Какие типы повреждений ДНК возможны под действием УФ-излучения?", "opts": ["Тиминовые димеры", "Двухцепочечные разрывы", "Искажение двойной спирали", "Инверсии", "Транслокации"], "correct": [0, 2]}, {"q": "Какие три вещества служат источником энергии для организма человека", "opts": ["Белки", "Жиры", "Минеральные соли", "Витамины", "Углеводы"], "correct": [0, 1, 4]}, {"q": "Какие уровни регуляции экспрессии генов существуют?", "opts": ["Транскрипционный", "Посттранскрипционный", "Трансляционный", "Репликационный", "Митотический"], "correct": [0, 1, 2]}, {"q": "Какие утверждения верны для отстающей цепи ДНК?", "opts": ["Синтезируется фрагментами Оказаки", "Требует многократного синтеза праймеров", "Синтезируется непрерывно", "Синтез идёт в направлении 5'→3'", "Не требует лигазы"], "correct": [0, 1, 3]}, {"q": "Какие факторы обеспечивают точность репликации ДНК?", "opts": ["Комплементарность оснований", "активность ДНК-полимеразы", "Метилирование ДНК", "Репарационные системы", "Сплайсинг"], "correct": [0, 1, 3]}, {"q": "Какие факторы обеспечивают точность трансляции?", "opts": ["Комплементарность кодон--антикодон", "Специфичность аминоацил-тРНК-синтетаз", "Работа лигазы", "Контрольные точки инициации", "Метилирование ДНК"], "correct": [0, 1]}, {"q": "Какие факторы относятся к эндогенным мутагенам?", "opts": ["УФ-излучение", "Активные формы кислорода", "Ошибки репликации", "Рентгеновское излучение", "Пестициды"], "correct": [1, 2]}, {"q": "Какие факторы относятся к эндогенным причинам мутаций?", "opts": ["Ультрафиолетовое излучение", "Ошибки репликации ДНК", "Активные формы кислорода", "Ионизирующее излучение", "Спонтанное дезаминирование оснований"], "correct": [1, 2, 4]}, {"q": "Какие факторы повышают риск мутаций?", "opts": ["Ионизирующее излучение", "Химические мутагены", "Ошибки репликации", "Сплайсинг", "Комплементарность"], "correct": [0, 1, 2]}, {"q": "Какие факторы стимулируют синтез мышечного белка (анаболизм)?", "opts": ["инсулин", "IGF-1 (инсулиноподобный фактор роста 1)", "аминокислоты (особенно лейцин)", "кортизол", "механическая нагрузка (упражнения сопротивления)"], "correct": [0, 1, 2, 4]}, {"q": "Какие ферменты встречаются в желудочном соке?", "opts": ["Пепсин", "Гастриксин", "Трипсин", "Секретин", "Карбоксипептидаза"], "correct": [0, 1]}, {"q": "Какие ферменты не встречаются в желудочном соке?", "opts": ["Пепсин", "Трипсин", "Химотрипсин", "Гастриксин", "Секретин"], "correct": [1, 2, 4]}, {"q": "Какие ферменты синтеза мочевины находятся в митохондриях гепатоцитов?", "opts": ["Орнитинкарбамоилтрансфераза", "аргининосукцинат синтетаза", "аргининосукцинатлиаза", "карбамоилфосфатсинтетаза I", "карбамоилфосфатсинтетаза II"], "correct": [0, 3, 4]}, {"q": "Какие ферменты участвуют в регуляции комплекса пируватдегидрогеназы?", "opts": ["Ацетилаза", "Киназа", "Фосфатаза", "Декарбоксилаза"], "correct": [1, 2]}, {"q": "Какие ферменты участвуют в репликации ДНК?", "opts": ["ДНК-полимераза", "Хеликаза", "Праймаза", "РНК-полимераза", "Лигаза"], "correct": [0, 1, 2, 4]}, {"q": "Какие ферменты участвуют в утилизации гликогена в мышцах?", "opts": ["гликогенфосфорилаза", "дебранчинг-фермент (гликозидаза)", "гликогенсинтаза", "фосфорилаза киназа", "глюкозо-6-фосфатаза"], "correct": [0, 1, 3]}, {"q": "Какие ферменты/транспортёры важны для реабсорбции глюкозы в проксимальных канальцах?", "opts": ["SGLT2 (содий-глюкозный котранспортёр)", "GLUT2", "Na+/K+-АТФаза", "Карбоангидраза V", "Карбоангидраза IV"], "correct": [0, 1, 2]}, {"q": "Какие функции выполняет тРНК?", "opts": ["Перенос аминокислот", "Распознавание кодона мРНК", "Катализ пептидной связи", "Связывание с рибосомой", "Синтез РНК"], "correct": [0, 1, 3]}, {"q": "Какие функции выполняют белки плазмы крови?", "opts": ["Поддержание онкотического давления", "Участие в свертывании крови", "Обеспечение вязкости крови", "Транспорт веществ", "Поддержание уровня катионов"], "correct": [0, 1, 2, 3]}, {"q": "Какие челночные механизмы используются для транспортировки протонов из цитозоля в матрикс митохондрия?", "opts": ["Глицерофосфатный", "Полная дыхательная цепь", "Малат-аспартатный", "Карнитин-ацилтрансферазный"], "correct": [0, 2]}, {"q": "Какие элементы относятся к промотору эукариот?", "opts": ["TATA-бокс", "CAAT-бокс", "Кодон", "GC-бокс", "Интрон"], "correct": [0, 1, 3]}, {"q": "Какие этапы включает транскрипция?", "opts": ["Инициация", "Элонгация", "Терминация", "Репликация", "Трансляция"], "correct": [0, 1, 2]}, {"q": "Какие этапы включает трансляция?", "opts": ["Инициация", "Элонгация", "Терминация", "Репликация", "Сплайсинг"], "correct": [0, 1, 2]}, {"q": "Какой процесс метаболизма липидов происходит в печени:", "opts": ["Синтез и окисление жирных кислот", "Синтез фосфатидов", "Образование ЛПОНП из ЛПВП", "Распад кетонового тела"], "correct": [0, 1]}, {"q": "Кальцитриол оказывает воздействие", "opts": ["тонкий кишечник", "желудок", "почки", "печень", "кости"], "correct": [0, 2, 4]}, {"q": "Катаболизм превосходит анаболизм в трёх случаях", "opts": ["Голодание", "Инфекционные   заболевания", "Старческий возраст", "Молодой организм", "Беременные"], "correct": [0, 1, 2]}, {"q": "Конечные продукты тирозина в печени – это что?", "opts": ["Фенилаланин", "Фумарат", "ацетоацетат", "тироксин", "цитрат"], "correct": [1, 2]}, {"q": "Коферментные формы нуклеотидов:", "opts": ["АТФ", "НАД⁺", "ФАД", "KoA"], "correct": [1, 2, 3]}, {"q": "ЛХАТ (лецитинхолестеринацилтрансфераза) … катализирует?", "opts": ["Катализирует гидролиз фосфолипидов", "Катализирует этерификацию холестерина", "Катализирует гидролиз белков", "Реакцию образования лизолецитина"], "correct": [1, 3]}, {"q": "Метаболиты, образующиеся на первом этапе синтеза инозинмонофосфата?", "opts": ["гуанозинмонофосфат", "5-фосфорибозилпирофосфат", "Аденозинмонофосфат", "Фосфорибозиламин"], "correct": [1, 3]}, {"q": "На какие метаболические пути может расходоваться гистидин?", "opts": ["На синтез белка", "На распад с выделением энергии", "На синтез карнозина", "На синтез гистамина", "На синтез ансерина"], "correct": [0, 1, 2, 3, 4]}, {"q": "Найдите органоспецифический фермент для печени?", "opts": ["Аргиназа.", "Гистидаза", "ЛДГ1", "Креатинкиназа.", "АСТ"], "correct": [0, 1]}, {"q": "Найдите печеночный фермент:", "opts": ["Аргиназа", "Карбамоил-орнитинтрансфераза", "УДФ-глюкуронилтрансфераза", "Аргининсукциниллиаза", "Креатинкиназа."], "correct": [0, 1, 2, 3]}, {"q": "Нуклеотиды, синтезируемые из ОМФ:", "opts": ["Уридиловые нуклеотиды", "Цитидиловые нуклеотиды", "Тимидиловые нуклеотиды", "Гуанидин монофосфат"], "correct": [0, 1, 2]}, {"q": "Определите активаторов фосфофруктокиназы 1.", "opts": ["АМФ", "АТФ", "Фруктозо-6-фосфат", "Фруктозо-2,6-дифосфат"], "correct": [0, 3]}, {"q": "Определите гематурию:", "opts": ["Повышение уровня мочевины и мочевой кислоты в крови", "Наличие в моче гемсодержащих ферментов", "Кровотечение из мочевыводящих путей", "Наличие в моче белков плазмы крови", "Появление в моче эритроцитов и их частей"], "correct": [2, 4]}, {"q": "Определите соединения, участвующие в свертывании крови?", "opts": ["Плазмин", "Тромбоциты", "Фибриноген", "Проконвертин", "Проакселерин"], "correct": [1, 2, 3, 4]}, {"q": "Определите ферменты, катализирующие первую и вторую реакции синтеза мочевины:", "opts": ["Орнитинкарбамоилтрансфераза", "Аргининосукцинат синтетаза", "Аргиназа", "Карбамоиллиаза", "Карбамоилфосфат синтетаза I"], "correct": [0, 4]}, {"q": "Органы-мишени для ПТГ", "opts": ["сердце", "кости", "печень", "почка", "поджелудочная железа"], "correct": [1, 3]}, {"q": "Основные три способа переноса веществ через мембрану клетки", "opts": ["Активный транспорт", "Эндоцитоз", "Простая и облегченная диффузия", "Гликолиз", "Липолиз"], "correct": [0, 1, 2]}, {"q": "Основные три функции мембранных белков", "opts": ["Синтез витаминов", "Катализ", "Пластическая, транспортная", "Секреция", "Рецепция"], "correct": [1, 2, 4]}, {"q": "Основные три этапа изменения  продуктов в процессе метаболизма?", "opts": ["Потребление и переваривание  пищи", "Выбор продуктов", "Промежуточный обмен", "Выделение конечных продуктов", "Поглощение конечных продуктов"], "correct": [0, 2, 3]}, {"q": "Основные ферменты, участвующие в обмене нуклеиновых кислот?", "opts": ["ДНКаза", "РНКаза", "ДНК синтетаза", "Нуклеотидаза"], "correct": [0, 1, 3]}, {"q": "Основные функции белков:", "opts": ["Строительная", "Энергетическая", "Защитная", "Каталитическая", "Регуляторная"], "correct": [0, 1, 2, 3, 4]}, {"q": "Паратгормон индуцирует", "opts": ["синтез кальцитриола", "синтез инсулина", "реабсорбцию калция", "синтез кортизола", "синтез ТТГ"], "correct": [0, 2]}, {"q": "По каким причинам начинается вторичная гиперурикемия?", "opts": ["При некоторых заболеваниях крови и почек", "При заболеваниях печени", "При отравлении свинцом", "При диабете"], "correct": [0, 1, 2]}, {"q": "Правильные характеристики для рибонуклеотид редуктазы:", "opts": ["Образует предшественники РНК → ДНК", "Требует NADPH", "Работает только в митохондриях", "Имеет регуляцию"], "correct": [0, 1, 3]}, {"q": "Препараты, применяемые для лечения подагры?", "opts": ["Аллопуринол", "Структурные аналоги гипоксантина", "Уридин", "Канефрон"], "correct": [0, 1]}, {"q": "При галактоземии  наблюдается  дефицит каких ферментов?", "opts": ["Гексокиназа", "Галактокиназа", "Галактозо-1-фосфатуридилтрансфераза", "4-Эпимераза"], "correct": [1, 2, 3]}, {"q": "При гипертиреозе возможны", "opts": ["Отрицательный азотистый баланс", "Усиление липолиза", "Повышение уровня холестерина", "Усиление глюконеогенеза", "Повышение теплопродукции"], "correct": [0, 1, 3, 4]}, {"q": "При дефиците йода наблюдается", "opts": ["Снижение синтеза Т3 и Т4", "Повышение ТТГ", "Гиперплазия щитовидной железы", "Повышение основного обмена", "Усиление захвата йода"], "correct": [0, 1, 2, 4]}, {"q": "При диабетическом кетоацидозе наблюдается", "opts": ["Усиление липолиза", "Повышение бета окисления", "Метаболический алкалоз", "Повышение ацетоаетата", "Дефицит инсулина"], "correct": [0, 1, 3, 4]}, {"q": "При инсулинорезистентности наблюдается", "opts": ["Снижение тирозинкиназной активности", "Повышение транслокаии ГЛЮТ 4", "Сериновые фосфорилирование IRS", "Повышение уровня свободных жирных кислот", "Активация протеинкиназы В"], "correct": [0, 2, 3]}, {"q": "При каких заболеваниях не наблюдается креатинурия?", "opts": ["При мышечной дистрофии", "При заболеваниях сердца", "При анемии", "При нефрите", "При гепатите"], "correct": [1, 2, 3, 4]}, {"q": "При катаболизме происходит:", "opts": ["Образование жиров из глицерина", "Образование ПВК из глюкозы", "Образование АТФ", "Образование ПВК из аминокислот", "Образование ацетил КоА из жирных кислот"], "correct": []}, {"q": "При механической желтухе …?", "opts": ["Нарушается отток желчи", "Возрастает содержание связанного и несвязанного билирубина в крови", "Нарушается транспорт несвязанного билирубина", "Нарушается конъюгация с глюкуроновой кислотой"], "correct": [0, 1]}, {"q": "При полном удалении печени, содержание какого вещества уменьшится в крови?", "opts": ["Альбумин", "креатин", "индикан", "аммиак"], "correct": [0, 3]}, {"q": "При тирозинемиях дефекты каких ферментов?", "opts": ["тирозинаминотрансфераза", "фумарилацетоацетатгидроксилаза", "Парагидроксифенилпируватдиоксигеназа", "гомогентизиндоксигеназа", "фенилаланингидроксилаза"], "correct": [0, 1, 2, 3]}, {"q": "Признаки болезни Хартнупа?", "opts": ["атаксия", "гипераминоацидурия", "пеллагроподобные поражения кожи", "психические изменения", "потемнение мочи"], "correct": [0, 1, 2, 3]}, {"q": "Продукты  катаболизма на втором этапе  превращаются в два  вещества:", "opts": ["Пируват", "Жирные кислоты", "Глицерин", "2-оксоглутарат", "Ацетил КоА"], "correct": [0, 4]}, {"q": "Пути распада нуклеотидов:", "opts": ["Участвуют фосфатазы", "Образуются нуклеозиды", "Образуются свободные основания", "Переходит в гликолиз"], "correct": [0, 1, 2]}, {"q": "С помощью каких рецепторов действуют катехоламины", "opts": ["α-адренергические", "Тирозинкиназные", "β-адренергические", "Г-белок рецепторы", "Стероидные"], "correct": [0, 2, 3]}, {"q": "Свойства карбамоилфосфат синтетазы II:", "opts": ["Требует АТФ", "Расположена в цитоплазме", "Участвует в синтезе пиримидина", "Расположена в митохондриях"], "correct": [0, 1, 2]}, {"q": "Серин используется в синтезе чего из перечисленного?", "opts": ["холин", "креатин", "сфингозин", "в синтезе пуриновых и пиримидиновых оснований", "в синтезе порфиринового кольца"], "correct": [0, 2, 3]}, {"q": "Способы переноса веществ через мембрану", "opts": ["Липидное строение бислоя", "Участие пентоз", "Участие белков переносчиков", "Наличие специфических каналов", "Участие ДНК"], "correct": [2, 3]}, {"q": "Типы дезаминирования:", "opts": ["Восстановительное", "Гидролитическое", "Межмолекулярное", "Окислительное", "За счёт конденсации"], "correct": [0, 1, 3, 4]}, {"q": "Типы декарбоксилирования аминокислот в живых организмах:", "opts": ["альфа-декарбоксилирование", "омега-декарбоксилирование", "Декарбоксилирование, связанное с трансаминированием", "окислительное дезаминирование", "трансаминирование"], "correct": [0, 2, 4]}, {"q": "Укажите 3 фермента, не участвующих в обезвреживании билирубина:", "opts": ["Метгемоглобинредуктаза", "Гемоксигеназа", "УДФ-глюкуронилтрансфераза", "Глюкозо-1-фосфатуридилтрансфераза", "Билирубинкиназа"], "correct": [0, 3, 4]}, {"q": "Укажите причину и следствие гемолитической желтухи:", "opts": ["Усиливается распад гемоглобина", "Резко возрастает количество непрямого билирубина в крови", "В моче появляется билирубин", "Возрастает количество прямого билирубина в крови"], "correct": [0, 1]}, {"q": "Укажите продукты, образующиеся из РНК под действием панкреатической РНКазы?", "opts": ["Полинуклеотид", "Мононуклеотид", "Дитринуклеотид", "Олигонуклеотид"], "correct": [1, 3]}, {"q": "Укажите процессы, связанные с обезвреживанием продуктов гниения аминокислот в печени и кишечнике:", "opts": ["Конъюгация с глюкуроновой кислотой", "Конъюгация с остатком сульфата", "Конъюгация с глицином", "Связывание NH3", "Связывание CO2, действие декарбоксилаз"], "correct": [0, 1, 2]}, {"q": "Укажите ферменты, участвующие в синтезе ГМФ ?", "opts": ["АМФ дегидрогеназа", "ИМФ дегидрогеназа", "ГМФ синтетаза", "АТФ синтетаза"], "correct": [1, 2]}, {"q": "Укажите функции ЛПBП?", "opts": ["Переносит холестерин из тканей в печень", "Переносит холестерин из печени в ткани", "Переносит холестерин с поверхности периферических клеток в печень", "ереносит эндогенные триглицериды"], "correct": [0, 2]}, {"q": "Фенилкетонурия протекает с увеличением в моче количества каких метаболитов альтернативного пути из перечисленных?", "opts": ["фенилпируват", "фенилацетат", "фениллактат", "фенилацетилглутамин", "гомогентизиновая кислота"], "correct": [0, 1, 2, 3]}, {"q": "Ферменты немикросомального окисления ксенобиотиков?", "opts": ["Пиридинзависимая дегидрогеназа", "Моноаминоксидаза", "Цитохром с-редуктаза", "НАДН-дегидрогеназа"], "correct": [0, 1, 3]}, {"q": "Ферменты, препятствующие превращению гемоглобина в метгемоглобин и образованию активных форм кислорода:", "opts": ["Каталаза", "Глутатионпероксидаза", "Глюкозо-6-фосфат дегидрогеназа", "Гексокиназа"], "correct": [0, 1, 2]}, {"q": "Ферменты, участвующие в гликогенезе", "opts": ["Гликогенфосфорилаза", "Гликогенсинтетаза", "Фосфоглюкомутаза", "Фермент ветвления"], "correct": [1, 2, 3]}, {"q": "Ферменты, участвующие в гликогенолизе", "opts": ["Гликогенфосфорилаза", "Амило-1,6-глюкозидаза", "Фосфоглюкомутаза", "Фермент ветвления"], "correct": [0, 1, 2]}, {"q": "Ферменты, участвующие в образовании УМФ из карбамоиласпартата?", "opts": ["Аспартат карбамоилфосфат трансфераза", "Оротатфосфорибозилтрансфераза", "ОМФдекарбоксилаза", "Дигидроорортатдегидрогеназа"], "correct": [1, 2, 3]}, {"q": "Ферменты, участвующие в последней стадии образования УМФ из дигидрооротовой кислоты?", "opts": ["Аспартат карбамоилфосфат трансфераза", "Оротатфосфорибозилтрансфераза", "ОМФдекарбоксилаза", "Дигидроорортатдегидрогеназа"], "correct": [1, 2]}, {"q": "Ферменты, участвующие в распаде пуринов:", "opts": ["Ксантиноксидаза", "Аденозин дезаминаза", "Нуклеозид фосфорилаза", "ДНК полимераза"], "correct": [0, 1, 2]}, {"q": "Ферменты, участвующие в стадии до образования дигидрооротата в синтезе УМФ?", "opts": ["Оротатфосфорибозилтрансфераза", "Аспартаткарбамоилтрансфераза", "Карбамоилфосфатсинтетаза", "Дигидрооротаза"], "correct": [1, 2, 3]}, {"q": "Фруктоземия может быть вызвана генетическим дефектом каких ферментов?", "opts": ["Фосфофруктокиназа", "Фруктокиназа", "Альдолаза А", "Альдолаза B"], "correct": [0, 1, 3]}, {"q": "Функции апопротеинов:", "opts": ["Регуляторная", "Структурная", "Катаболическая", "Защитная"], "correct": [0, 1]}, {"q": "Функции гистамина в организме человека:", "opts": ["Стимулирует секрецию желудочного сока, слюны", "Вызывает отёк", "Выполняет функцию нейромедиатора", "Вызывает аллергическую реакцию", "Снижает артериальное давление"], "correct": [0, 1, 2, 3, 4]}, {"q": "Характеристики дезоксирибонуклеазы I?", "opts": ["Содержит 343 остатка аминокислот", "Имеет активность при pH=6.8-8.0", "Активируется ионом Mg +2", "Молекулярный вес 38000 D"], "correct": [0, 1, 2, 3]}, {"q": "Характеристики дезоксирибонуклеазы II?", "opts": ["Содержит 257 остатков аминокислот", "Имеет активность при pH=5.5-5.8", "Активируется анионами", "Молекулярный вес 38000 D"], "correct": [0, 1, 2]}, {"q": "Характеристики синтеза пиримидинового кольца:", "opts": ["Сначала синтезируется кольцо", "Затем присоединяется к рибозе", "Фосфорибозилпирофосфат необходим на первом этапе", "Происходит в цитоплазме"], "correct": [0, 1, 3]}, {"q": "Хиломикроны это ..?", "opts": ["Крупная частица с большой оболочкой и маленьким ядром", "Частица, содержащая большое количество экзогенных липидов", "Крупная частица с маленькой оболочкой и большим ядром", "Частица, содержащая большое количество белка"], "correct": [1, 2]}, {"q": "Чего из перечисленного не бывает в сыворотке крови?", "opts": ["Эритроциты", "Лейкоциты", "Тромбоциты", "Фибриноген", "Белок"], "correct": [0, 1, 2, 3]}, {"q": "Чем активируется фермент пепсиноген?", "opts": ["Пепсином", "Трипсином", "Трипсиногеном", "Пепсиногеном", "HCl"], "correct": [0, 4]}, {"q": "Четыре конечных продукта метаболизма", "opts": ["Двуокись  углерода,", "Вода,", "Мочевина", "Белок", "ATФ"], "correct": [0, 1, 2, 4]}, {"q": "Что выделяется при снижении уровня кальция в крови?", "opts": ["кальцитонин", "паратиреоидный гормон", "кальцитриол", "АКТГ", "ТТГ"], "correct": [1, 2]}, {"q": "Что характерно для синдрома Леша-Нихана?", "opts": ["Аутосомно-доминантное заболевание", "Х-сцепленное рецессивное заболевание", "Наблюдается церебральный паралич", "Больной кусает губы и пальцы до крови"], "correct": [1, 2, 3]}];
+const QUESTIONS = [{"q": "Какие четыре  процесса протекают при катаболизме", "opts": ["Расщепление белков", "Расщепление жиров", "Расщепление  углеводов", "Биосинтез жиров", "Расщепление нуклеиновых кислот"], "correct": [0, 1, 2, 4]}, {"q": "При катаболизме происходит", "opts": ["Биосинтез углеводов", "Расщепление жиров", "Биосинтез жиров", "Биосинтез белков", "Расщепление белков"], "correct": [1, 4]}, {"q": "Выберите ингибиторов α-кетоглутаратдегидрогеназы", "opts": ["AДФ", "АТФ", "НАДН", "Сукцинил-КоА"], "correct": [1, 2, 3]}, {"q": "Процессы при анаболизме", "opts": ["Биосинтез белков", "Биосинтез углеводов", "Расщепление белков", "Расщепление жиров", "Биосинтез жиров"], "correct": [0, 1, 4]}, {"q": "Аллостерические ингибиторы фермента глутаминсинтетазы?", "opts": ["АМФ", "глюкоза-6-фосфат", "глицин, аланин", "АТФ", "глюкоза"], "correct": [0, 1, 2, 3]}, {"q": "Апопротеины, участвующие в регуляции активности ферментов метаболизма липопротеинов?", "opts": ["Apo A1", "Apo B48", "Apo C II", "Apo B100"], "correct": [0, 2]}, {"q": "Биохимические функции цикла Кребса", "opts": ["Энергетическая", "Амфиболическая", "Катаболическая", "Резервная"], "correct": [0, 1, 2]}, {"q": "В каких процессах синтеза в печени используется НАДФН2?", "opts": ["Жирные кислоты", "Мевалоновая кислота", "Глюкоза", "Ацетоацетат"], "correct": [0, 1]}, {"q": "В каких тканях активно осуществляется пентозофосфатный путь?", "opts": ["Жировая ткань", "Нервная ткань", "Молочные железы", "В эритроцитах"], "correct": [0, 2, 3]}, {"q": "В непрямом окислительном дезаминировании участвуют:", "opts": ["Аминотрансфераза", "Глутаматдегидрогеназа", "Тиамин", "Никотинамиддинуклеотид", "L-оксидаза"], "correct": [0, 1, 3]}, {"q": "В организме аммиак образуется при:", "opts": ["Распаде гликогена", "Дезаминировании аминокислот", "Дезаминировании биогенных аминов", "Катаболизме пуринов, пиримидинов", "Гниении белков в кишечнике"], "correct": [1, 2, 3, 4]}, {"q": "Выберите 3 группы ферментов в крови:", "opts": ["Секреторные", "Индикаторные", "Экскреторные", "Гонадотропные", "Лимфотропные"], "correct": [0, 1, 2]}, {"q": "Выберите 4 характеристики для непрямого билирубина:", "opts": ["Конечный продукт распада гема", "Транспортируется в комплексе с альбумином", "Не растворим в воде", "Образует комплекс с глюкуроновой кислотой", "Дает косвенную реакцию с диазореактивом"], "correct": [0, 1, 2, 4]}, {"q": "Выберите 4 характеристики для прямого билирубина:", "opts": ["Конечный продукт распада гема", "Транспортируется в комплексе с альбумином", "растворим в воде", "Образует комплекс с глюкуроновой кислотой", "Образуется в печени"], "correct": [2, 3, 4]}, {"q": "Выберите активаторы ПДК.", "opts": ["Пируват", "Ацетил-КоА", "Са", "НАДН+Н"], "correct": [0, 2]}, {"q": "Выберите ингибиторов общих путей катаболизма.", "opts": ["AДФ", "АТФ", "НАДН", "НАДФ"], "correct": [1, 2]}, {"q": "Выберите индикаторные ферменты плазмы крови?", "opts": ["Ферменты, участвующие в свертывании крови", "Холинэстераза", "АЛТ", "АСТ", "Щелочная фосфатаза"], "correct": [2, 3]}, {"q": "Выберите клинических проявлений галактоземии.", "opts": ["Цирроз печени", "Желтуха", "Катаракта", "Избыточный вес"], "correct": [0, 1, 2]}, {"q": "Выберите ключевые ферменты гликолиза.", "opts": ["Гексокиназа", "Фосфофруктокиназа 1", "пируваткиназа", "Пируваткарбоксилаза"], "correct": [0, 1, 2]}, {"q": "Выберите ключевые ферменты глюконеогенеза", "opts": ["Пируваткиназа", "Пируваткарбоксилаза", "Фосфоенолпируваткарбоксилаза", "глюкозо-6-фосфатаза"], "correct": [1, 2, 3]}, {"q": "Выберите ключевые ферменты цикла трикарбоновых кислот.", "opts": ["Цитратсинтаза", "Малатдегидрогеназа", "Изоцитратдегидрогеназа", "α-кетоглутаратдегидрогеназа"], "correct": [0, 2, 3]}, {"q": "Выберите коферменты ферментов, входящих в состав пируватдегидрогеназного комплекса.", "opts": ["НАД, ФАД", "ТДФ", "NADF", "Коэнзим-А"], "correct": [0, 1, 3]}, {"q": "Выберите НАД-зависимые ферменты цикла Кребса.", "opts": ["Изоцитратдегидрогеназа", "α-Кетоглутаратдегидрогеназа", "Сукцинатдегидрогеназа", "Малатдегидрогеназа"], "correct": [0, 1, 3]}, {"q": "Выберите первое, второе и третье вещества, образующиеся в орнитиновом цикле синтеза мочевины:", "opts": ["Карбамоилфосфат", "Цитруллин", "Аргининосукцинат", "Орнитин", "Фумарат"], "correct": [0, 1, 2]}, {"q": "Выберите правильные варианты?", "opts": ["Подагрические узлы называются тофусами", "Кристаллы мононатриевой соли мочевой кислоты откладываются в суставах", "Частота встречаемости у мужчин в 20 раз выше, чем у женщин", "Не приводит к почечной недостаточности"], "correct": [0, 1, 2]}, {"q": "Выберите промежуточные продукты гликолиза.", "opts": ["Диоксиацетонофосфат", "1,3-бисфосфоглицерат", "Глицеральдегид", "Фруктозо-2,6-дифосфат"], "correct": [0, 1]}, {"q": "Выберите секреторные ферменты плазмы крови?", "opts": ["Ферменты, участвующие в свертывании крови", "Холинэстераза", "АЛТ", "АСТ", "Ishqoriy fosfataza"], "correct": [0, 1]}, {"q": "Выберите состояния при подагре?", "opts": ["Воспаление большого пальца ноги", "Приступы болезни длятся часами", "Накопление и увеличение количества уратов", "Приводит к почечной недостаточности"], "correct": [0, 2, 3]}, {"q": "Выберите специфические дисахаридазы, которые переваривают дисахариды в кишечнике.", "opts": ["Мальтаза", "Лактаза", "Сахараза", "Галактаза"], "correct": [0, 1, 2]}, {"q": "Выберите субстраты для реакций окислительного декарбоксилирования цикла Кребса.", "opts": ["Изоцитрат", "Малат", "α-кетоглутарат", "оксалоацетат"], "correct": [0, 2]}, {"q": "Выберите субстраты окислительного фосфорилирования в цикле лимонной кислоты.", "opts": ["Цитрат", "Изоцитрат", "Малат", "Сукцинат"], "correct": [1, 2, 3]}, {"q": "Выберите субстраты,  субстратного фосфорилирования в гликолизе.", "opts": ["1,3-бисфосфоглицерат", "Фруктозо-1,6-дифосфат", "3-фосфоглицерат", "Фосфоенолпируват"], "correct": [0, 3]}, {"q": "Выберите ферменты, входящие в состав пируватдегидрогеназного комплекса.", "opts": ["Пируватдекарбоксилаза", "Пируваткарбоксилаза", "Дигидролипоилтрансацетилаза", "Дигидролипоилдегидрогеназа"], "correct": [0, 2, 3]}, {"q": "Выберите ферменты, участвующие в фосфорилировании глюкозы.", "opts": ["Глюкозо-6-фосфатаза", "Глюкокиназа", "Гексокиназа", "Глюкозофосфорилаза"], "correct": [1, 2]}, {"q": "Где синтезируются белки плазмы крови?", "opts": ["В печени", "В клетках ретикулоэндотелиальной системы", "В мышцах", "В селезенке", "В ткани мозга"], "correct": [0, 1]}, {"q": "Гиперинсулинемия биохимические последствия", "opts": ["Усиление липогенеза", "Подавление глюконеогенеза", "Активация гормон чувствительной липазы", "Снижение кетогенеза", "Повышение синтеза триглицеридов"], "correct": [0, 1, 3, 4]}, {"q": "Гипоталамус-гипофизарная регуляция", "opts": ["ТТГ стимулирует синтез тиреоидных гормонов", "Т3 оказывает отрицательную обратную связь на гипофиз", "АКТГ синтезируется в нейрогипофизе", "Кортизол подавляет секрецию КРГ", "Либерины секретируются гипоталамусом"], "correct": [0, 1, 3, 4]}, {"q": "Глицин используется в синтезе чего из перечисленного?", "opts": ["холин", "креатин", "жёлчные кислоты", "пуриновое основание", "в синтезе порфиринового кольца"], "correct": [1, 2, 3, 4]}, {"q": "Гормоны надпочечников", "opts": ["Глюкокортикоиды", "Минерало кортикоиды", "Андрогены", "Тироиды", "катехоламины"], "correct": [0, 1, 2, 4]}, {"q": "Гормоны с гипергликемическим действием", "opts": ["Инсулин", "Адреналин", "Глюкагон", "Кортизол"], "correct": [1, 2, 3]}, {"q": "Два этапа пентозофосфатного шунта?", "opts": ["Окислительный", "Изомеризуемый", "Неокислительный", "Востоновительный"], "correct": [0, 2]}, {"q": "Для гормонов действующих через ядерные рецепторы характерны", "opts": ["Липофильность", "Связывание с ДНК", "Быстрое развитие эффекта", "Синтез из холестерина и аминокислот", "транспорт в крови в свободном виде"], "correct": [0, 1, 3]}, {"q": "Для каких групп аминокислот в кишечнике существуют специальные транспортеры для переноса?", "opts": ["Основные", "Кислые", "Ароматические", "Иминокислоты", "Нейтральные"], "correct": [0, 1, 4]}, {"q": "Для катехоламинов характерно", "opts": ["Синтез из тирозина", "Короткий период полужизни", "Действие через Г белки", "Прямое влияние на транскрипцию", "Актваия протеин киназы А"], "correct": [0, 1, 2, 4]}, {"q": "Из каких амино кислот синтезируется амино группы в мочевине", "opts": ["фенилаланин", "глутамат", "глицин", "глутамин", "аспартат"], "correct": [3, 4]}, {"q": "Из чего образуется глюкоза в  глюконеогенеза?", "opts": ["Гликоген", "Жрная кислота", "Аминокислота", "Пируват"], "correct": [2, 3]}, {"q": "Из-за дефекта орнитинкарбамоилтрансферазы (при гипераммониемиях) наблюдается?", "opts": ["Накопление карбамоилфосфата в митохондриях", "Увеличение концентрации цитруллина", "Повышение активности Карбамоилтрансферазы II", "Выделение оротата с мочой", "Увеличение концентрации аргининосукцината"], "correct": [0, 3]}, {"q": "Инсулин -", "opts": ["активирует гликоген синтазу", "активирует гексокиназу", "ингибирует гексокиназу", "ингибирует гликоген фосфорилазу", "активирует липопротеинлипазу"], "correct": []}, {"q": "Инсулиновый рецептор и сигнальный путь", "opts": ["Обладает тирозин киназной активностью", "Происходит аутофосфорилирование", "Активация PI3 киназы", "Действует через цАМФ", "IRS-белки участвуют в передаче сигнала"], "correct": []}, {"q": "К печеночным формам гликогенозов относятся?", "opts": ["болезнь фон Гирке", "болезнь Мак-Ардля", "болезнь Помпе", "болезнь Герца"], "correct": [2]}, {"q": "К чему приводит снижение концентрации α-кетоглутарата?", "opts": ["К увеличению количества АТФ", "К гиперэнергетическому состоянию", "К снижению концентрации метаболитов цикла Кребса", "К гипоэнергетическому состоянию", "К снижению обмена аминокислот"], "correct": []}, {"q": "К чему приводит снижение уровня глюкозы в крови?", "opts": ["К выработке инсулина", "К выработке адреналина", "К выработке глюкагона", "К выработке АДГ", "К выработке пролактина"], "correct": []}, {"q": "Какие аминокислоты при дезаминировании превращаются в пировиноградную кислоту?", "opts": ["Аланин", "Фенилаланин, лизин", "Аспартат, аспарагин", "Серин, треонин", "Валин"], "correct": []}, {"q": "Какие аминокислоты при обмене превращаются в α-кетоглутаровую кислоту?", "opts": ["Аргинин, гистидин", "Метионин, треонин", "Лейцин, глутамат", "Пролин, лизин", "Глутамат, глутамин"], "correct": [0, 2, 3, 4]}, {"q": "Какие аминокислоты при обмене превращаются в ацетил-КоА?", "opts": ["Фенилаланин, триптофан", "Аланин, цистеин", "Пролин, гистидин", "Метионин, валин", "Лейцин"], "correct": [4]}, {"q": "Какие аминокислоты при обмене превращаются в ацетоацетил-КоА?", "opts": ["Фенилаланин, лизин", "Аланин, серин", "Глицин, треонин", "Глицин, гистидин", "Тирозин, лейцин"], "correct": [0, 4]}, {"q": "Какие аминокислоты при обмене превращаются в сукцинил-КоА?", "opts": ["Метионин, треонин", "Серин, цистеин", "Гистидин, глицин", "Фенилаланин, лейцин", "Изолейцин, валин"], "correct": [0, 4]}, {"q": "Какие вещества почки могут синтезировать?", "opts": ["ренин", "эритропоэтин (EPO)", "инсулин", "1,25-дигидроксивитамин D (кальцитриол)", "альдостерон"], "correct": [0, 1, 3]}, {"q": "Какие заболевания относятся к хромосомным аномалиям?", "opts": ["Синдром Дауна", "Синдром Клайнфельтера", "Муковисцидоз", "Синдром Шерешевского–Тёрнера", "Фенилкетонурия"], "correct": [0, 1]}, {"q": "Какие из перечисленных белков и ферментов содержат гем?", "opts": ["Гемоглобин", "Пероксидаза", "Трансферрин", "Цитохром С", "Цитохром а3"], "correct": [0]}, {"q": "Какие из перечисленных белков синтезируются в печени?", "opts": ["Альбумин", "Альфа-глобулин", "Бета-глобулин", "Гамма-глобулин", "Протромбин"], "correct": [0, 4]}, {"q": "Какие изменения биохимии крови характерны для почечной недостаточности?", "opts": ["гиперкалиемия", "гипонатриемия", "повышение креатинина и мочевины", "метаболический алкалоз", "снижение уровня EPO и анемия"], "correct": [0, 2]}, {"q": "Какие изменения характерны для мышечного метаболизма при интенсивной анаэробной нагрузке?", "opts": ["накопление лактата (лактат-ацидоз)", "быстрая деградация креатинфосфата", "увеличение потребления О2 (окислительный метаболизм)", "повышение соотношения NADH/NAD+ в цитоплазме", "активация гликолиза за счёт фосфорилирования фосфофруктокиназы-1"], "correct": []}, {"q": "Какие изменения электролитов характерны для гиперальдостеронизма?", "opts": ["гипокалиемия", "гипернатриемия", "метаболический алкалоз", "гиперкальциемия", "гипомагниемия"], "correct": []}, {"q": "Какие ингибиторы ПДК следует выбрать?", "opts": ["Пируват", "Ацетил-КоА", "Ка", "НАДН+Г"], "correct": []}, {"q": "Какие кодоны относятся к стоп-кодонам?", "opts": ["UAA", "UAG", "UGA", "AUG", "UGG"], "correct": []}, {"q": "Какие компоненты входят в состав нуклеотида ДНК?", "opts": ["Азотистое основание", "Фосфатная группа", "Дезоксирибоза", "Рибоза", "Аминокислота"], "correct": []}, {"q": "Какие липотропные вещества защищают печень от жировой дистрофии?", "opts": ["Холинфосфатиды", "Метионин", "Гликоген", "Глюкоза"], "correct": []}, {"q": "Какие маркёры повреждения скелетных мышц определяют в крови?", "opts": ["креатинкиназа (CK, особенно CK-MM)", "лактатдегидрогеназа (LDH)", "миоглобин", "аланинаминотрансфераза (ALT)", "карнитин в плазме"], "correct": []}, {"q": "Какие механизмы обеспечивают концентрацию мочи в нефроне?", "opts": ["контрградиентная система в петле Генле", "водопроницаемость собирательных каналов, регулируемая ADH", "активный транспорт натрия в восходящем плече петли Генле", "реабсорбция глюкозы в проксимальном канальце", "секреция органических анионов в канальцах"], "correct": []}, {"q": "Какие механизмы способствуют поддержанию калиевого гомеостаза почками?", "opts": ["секреция K+ в собирательных трубочках под действием альдостерона", "реабсорбция K+ в проксимальном канальце и петле Генле", "активный выброс K+ через Na+/K+-АТФазу в клетках канальцев", "экскреция K+ только через потоотделение, не почками", "влияние кислотно-щелочного состояния на перераспределение K+"], "correct": []}, {"q": "Какие молекулы обычно секретируются в проксимальном канальце?", "opts": ["органические кислоты (например, PAH)", "креатинин", "глюкоза", "лекарственные соединения (антибиотики, диуретики)", "белки большого размера"], "correct": []}, {"q": "Какие молекулы участвуют в образование пептидной связи?", "opts": ["Аминокислоты", "рРНК", "тРНК", "ДНК", "Фосфолипиды"], "correct": []}, {"q": "Какие молекулярные механизмы участвуют в регулировании митохондриальной биогенеза в мышцах при тренировке?", "opts": ["активация PGC-1α (коактиватор γ-рецептора)", "увеличение митохондриальной ДНК и митохондриальных белков", "снижение экспрессии цитохромов дыхательной цепи", "активация AMPK при энергетическом стрессе", "увеличение капилляризации и доставки кислорода"], "correct": []}, {"q": "Какие мутации могут привести к изменению аминокислотной последовательности?", "opts": ["Миссенс", "Нонсенс", "Гомологичная", "Синонимическая", "Транзиция без изменения кодона"], "correct": []}, {"q": "Какие мутации могут приводить к изменению аминокислотной последовательности белка?", "opts": ["Миссенс", "Нонсенс", "Гомологичная", "Синонимическая", "Транзиция без изменения кодона"], "correct": []}, {"q": "Какие нарушения биохимии мышц характерны для наследственных миопатий с нарушением митохондрий?", "opts": ["снижение оксидативного фосфорилирования", "повышенное образование лактата в покое", "гиперфосфатазия крови", "повышенная утомляемость и слабость при аэробных нагрузках", "уменьшение митохондриальной ДНК в клетках"], "correct": []}, {"q": "Какие нарушения могут привести к снижению синтеза белка?", "opts": ["Мутация старт-кодона", "Ингибирование рибосом", "Синонимическая мутация", "Нарушение сплайсинга", "Метилирование ДНК"], "correct": []}, {"q": "Какие нуклеотиды образуются в результате воздействия панкреатической ДНКазы на нуклеиновые кислоты?", "opts": ["Полинуклеотид", "Мононуклеотид", "Дитринуклеотид", "Олигонуклеотид"], "correct": []}, {"q": "Какие одноуглеродные соединения участвуют в синтезе пуриновых оснований?", "opts": ["Формильная группа", "Метенилгруппа", "Метильная группа", "Оксиметильная группа"], "correct": []}, {"q": "Какие последствия может иметь накопление мутаций?", "opts": ["Геномная нестабильность", "Онкогенез", "Усиление трансляции", "Наследственные заболевания", "Повышение сплайсинга"], "correct": []}, {"q": "Какие протеолитические ферменты есть в кишечном соке?", "opts": ["Пепсин", "Аланинаминопептидаза", "Трипсин", "Гастриксин", "Амилаза"], "correct": []}, {"q": "Какие процессы зависят от ферментативной активности?", "opts": ["Репликация", "Транскрипция", "Трансляция", "Диффузия", "Осмос"], "correct": []}, {"q": "Какие процессы наблюдаются в результате нарушения функции печени?", "opts": ["Повышение уровня аммиака", "Увеличение непрямого билирубина", "Увеличение уровня глюкозы", "Снижение уровня альбумина", "Снижение уровня мочевины"], "correct": []}, {"q": "Какие процессы относятся к посттранскрипционной модификации мРНК?", "opts": ["Кэпирование 5'-конца", "Полиаденилирование 3'-конца", "Сплайсинг", "Терминация транскрипции", "Репликация"], "correct": []}, {"q": "Какие процессы относятся к экспрессии генов?", "opts": ["Транскрипция", "Трансляция", "Посттранскрипционная обработка", "Репликация", "Репарация"], "correct": []}, {"q": "Какие процессы происходят при восстановлении после интенсивной физической нагрузки (оксидативный посткомпенсационный период)?", "opts": ["восстановление запасов креатинфосфата", "окисление накопленного лактата в печени и мышцах", "синтез гликогена (гликогенез) в мышцах", "длительное повышение уровня катехоламинов полностью прекращается сразу после нагрузки", "повышенное поглощение аминокислот для синтеза белка"], "correct": []}, {"q": "Какие процессы происходят только у эукариот?", "opts": ["Сплайсинг", "Кэпирование мРНК", "Репликация", "Трансляция", "Полиаденилирование"], "correct": []}, {"q": "Какие процессы связаны с реализацией генетической информации?", "opts": ["Репликация", "Транскрипция", "Трансляция", "Апоптоз", "Митоз"], "correct": []}, {"q": "Какие процессы синтеза липидов происходят только в печени?", "opts": ["Синтез холестерина", "Синтез кетоновых тел", "Окисление кетоновых тел", "Синтез хиломикронов"], "correct": []}, {"q": "Какие процессы требуют участия РНК?", "opts": ["Транскрипция", "Трансляция", "Репликация", "Репарация", "Сплайсинг"], "correct": []}, {"q": "Какие пути детоксикации этилового спирта в печени?", "opts": ["Немикросомальное окисление", "Микросомальное окисление", "Гидролиз", "Конъюгация"], "correct": []}, {"q": "Какие различия существуют между транскрипцией у прокариот и эукариот?", "opts": ["Наличие нескольких РНК-полимераз у эукариот", "Пространственное разделение транскрипции и трансляции", "Использование РНК-полимеразы", "Наличие хроматина у эукариот", "Синтез РНК в направлении 3'→5'"], "correct": []}, {"q": "Какие свойства характерны для генетического кода?", "opts": ["Триплетность", "Вырожденность", "Универсальность", "Перекрываемость", "Случайность"], "correct": []}, {"q": "Какие свойства характерны для молекулы РНК?", "opts": ["Обычно одноцепочечная", "Содержит тимин", "Содержит урацил", "Синтезируется на матрице ДНК", "Всегда имеет двойную спираль"], "correct": [0, 2, 3]}, {"q": "Какие симптомы входят в гипераммониемию?", "opts": ["тошнота", "спутанность речи", "судорожная дрожь", "головокружение", "потеря сознания"], "correct": [0, 1, 2, 3, 4]}, {"q": "Какие типы повреждений ДНК возможны под действием УФ-излучения?", "opts": ["Тиминовые димеры", "Двухцепочечные разрывы", "Искажение двойной спирали", "Инверсии", "Транслокации"], "correct": [0, 2]}, {"q": "Какие три вещества служат источником энергии для организма человека", "opts": ["Белки", "Жиры", "Минеральные соли", "Витамины", "Углеводы"], "correct": [0, 1, 4]}, {"q": "Какие уровни регуляции экспрессии генов существуют?", "opts": ["Транскрипционный", "Посттранскрипционный", "Трансляционный", "Репликационный", "Митотический"], "correct": [0, 1, 2]}, {"q": "Какие утверждения верны для отстающей цепи ДНК?", "opts": ["Синтезируется фрагментами Оказаки", "Требует многократного синтеза праймеров", "Синтезируется непрерывно", "Синтез идёт в направлении 5'→3'", "Не требует лигазы"], "correct": [0, 1, 3]}, {"q": "Какие факторы обеспечивают точность репликации ДНК?", "opts": ["Комплементарность оснований", "активность ДНК-полимеразы", "Метилирование ДНК", "Репарационные системы", "Сплайсинг"], "correct": [0, 1, 3]}, {"q": "Какие факторы обеспечивают точность трансляции?", "opts": ["Комплементарность кодон--антикодон", "Специфичность аминоацил-тРНК-синтетаз", "Работа лигазы", "Контрольные точки инициации", "Метилирование ДНК"], "correct": [0, 1]}, {"q": "Какие факторы относятся к эндогенным мутагенам?", "opts": ["УФ-излучение", "Активные формы кислорода", "Ошибки репликации", "Рентгеновское излучение", "Пестициды"], "correct": [1, 2]}, {"q": "Какие факторы относятся к эндогенным причинам мутаций?", "opts": ["Ультрафиолетовое излучение", "Ошибки репликации ДНК", "Активные формы кислорода", "Ионизирующее излучение", "Спонтанное дезаминирование оснований"], "correct": [1, 2, 4]}, {"q": "Какие факторы повышают риск мутаций?", "opts": ["Ионизирующее излучение", "Химические мутагены", "Ошибки репликации", "Сплайсинг", "Комплементарность"], "correct": [0, 1, 2]}, {"q": "Какие факторы стимулируют синтез мышечного белка (анаболизм)?", "opts": ["инсулин", "IGF-1 (инсулиноподобный фактор роста 1)", "аминокислоты (особенно лейцин)", "кортизол", "механическая нагрузка (упражнения сопротивления)"], "correct": [0, 1, 2, 4]}, {"q": "Какие ферменты встречаются в желудочном соке?", "opts": ["Пепсин", "Гастриксин", "Трипсин", "Секретин", "Карбоксипептидаза"], "correct": [0, 1]}, {"q": "Какие ферменты не встречаются в желудочном соке?", "opts": ["Пепсин", "Трипсин", "Химотрипсин", "Гастриксин", "Секретин"], "correct": [1, 2, 4]}, {"q": "Какие ферменты синтеза мочевины находятся в митохондриях гепатоцитов?", "opts": ["Орнитинкарбамоилтрансфераза", "аргининосукцинат синтетаза", "аргининосукцинатлиаза", "карбамоилфосфатсинтетаза I", "карбамоилфосфатсинтетаза II"], "correct": [0, 3]}, {"q": "Какие ферменты участвуют в регуляции комплекса пируватдегидрогеназы?", "opts": ["Ацетилаза", "Киназа", "Фосфатаза", "Декарбоксилаза"], "correct": [1, 2]}, {"q": "Какие ферменты участвуют в репликации ДНК?", "opts": ["ДНК-полимераза", "Хеликаза", "Праймаза", "РНК-полимераза", "Лигаза"], "correct": [0, 1, 2, 4]}, {"q": "Какие ферменты участвуют в утилизации гликогена в мышцах?", "opts": ["гликогенфосфорилаза", "дебранчинг-фермент (гликозидаза)", "гликогенсинтаза", "фосфорилаза киназа", "глюкозо-6-фосфатаза"], "correct": [0, 1, 3]}, {"q": "Какие ферменты/транспортёры важны для реабсорбции глюкозы в проксимальных канальцах?", "opts": ["SGLT2 (содий-глюкозный котранспортёр)", "GLUT2", "Na+/K+-АТФаза", "Карбоангидраза V", "Карбоангидраза IV"], "correct": [0, 1, 2]}, {"q": "Какие функции выполняет тРНК?", "opts": ["Перенос аминокислот", "Распознавание кодона мРНК", "Катализ пептидной связи", "Связывание с рибосомой", "Синтез РНК"], "correct": [0, 1, 3]}, {"q": "Какие функции выполняют белки плазмы крови?", "opts": ["Поддержание онкотического давления", "Участие в свертывании крови", "Обеспечение вязкости крови", "Транспорт веществ", "Поддержание уровня катионов"], "correct": [0, 1, 2, 3]}, {"q": "Какие челночные механизмы используются для транспортировки протонов из цитозоля в матрикс митохондрия?", "opts": ["Глицерофосфатный", "Полная дыхательная цепь", "Малат-аспартатный", "Карнитин-ацилтрансферазный"], "correct": [0, 2]}, {"q": "Какие элементы относятся к промотору эукариот?", "opts": ["TATA-бокс", "CAAT-бокс", "Кодон", "GC-бокс", "Интрон"], "correct": [0, 1, 3]}, {"q": "Какие этапы включает транскрипция?", "opts": ["Инициация", "Элонгация", "Терминация", "Репликация", "Трансляция"], "correct": [0, 1, 2]}, {"q": "Какие этапы включает трансляция?", "opts": ["Инициация", "Элонгация", "Терминация", "Репликация", "Сплайсинг"], "correct": [0, 1, 2]}, {"q": "Какой процесс метаболизма липидов происходит в печени:", "opts": ["Синтез и окисление жирных кислот", "Синтез фосфатидов", "Образование ЛПОНП из ЛПВП", "Распад кетонового тела"], "correct": [0, 1]}, {"q": "Кальцитриол оказывает воздействие", "opts": ["тонкий кишечник", "желудок", "почки", "печень", "кости"], "correct": [0, 2, 4]}, {"q": "Катаболизм превосходит анаболизм в трёх случаях", "opts": ["Голодание", "Инфекционные   заболевания", "Старческий возраст", "Молодой организм", "Беременные"], "correct": [0, 1, 2]}, {"q": "Конечные продукты тирозина в печени – это что?", "opts": ["Фенилаланин", "Фумарат", "ацетоацетат", "тироксин", "цитрат"], "correct": [1, 2]}, {"q": "Коферментные формы нуклеотидов:", "opts": ["АТФ", "НАД⁺", "ФАД", "KoA"], "correct": [1, 2, 3]}, {"q": "ЛХАТ (лецитинхолестеринацилтрансфераза) … катализирует?", "opts": ["Катализирует гидролиз фосфолипидов", "Катализирует этерификацию холестерина", "Катализирует гидролиз белков", "Реакцию образования лизолецитина"], "correct": [1, 3]}, {"q": "Метаболиты, образующиеся на первом этапе синтеза инозинмонофосфата?", "opts": ["гуанозинмонофосфат", "5-фосфорибозилпирофосфат", "Аденозинмонофосфат", "Фосфорибозиламин"], "correct": [1, 3]}, {"q": "На какие метаболические пути может расходоваться гистидин?", "opts": ["На синтез белка", "На распад с выделением энергии", "На синтез карнозина", "На синтез гистамина", "На синтез ансерина"], "correct": [0, 1, 2, 3, 4]}, {"q": "Найдите органоспецифический фермент для печени?", "opts": ["Аргиназа.", "Гистидаза", "ЛДГ1", "Креатинкиназа.", "АСТ"], "correct": [0, 1]}, {"q": "Найдите печеночный фермент:", "opts": ["Аргиназа", "Карбамоил-орнитинтрансфераза", "УДФ-глюкуронилтрансфераза", "Аргининсукциниллиаза", "Креатинкиназа."], "correct": [0, 1, 2, 3]}, {"q": "Нуклеотиды, синтезируемые из ОМФ:", "opts": ["Уридиловые нуклеотиды", "Цитидиловые нуклеотиды", "Тимидиловые нуклеотиды", "Гуанидин монофосфат"], "correct": [0, 1, 2]}, {"q": "Определите активаторов фосфофруктокиназы 1.", "opts": ["АМФ", "АТФ", "Фруктозо-6-фосфат", "Фруктозо-2,6-дифосфат"], "correct": [0, 3]}, {"q": "Определите гематурию:", "opts": ["Повышение уровня мочевины и мочевой кислоты в крови", "Наличие в моче гемсодержащих ферментов", "Кровотечение из мочевыводящих путей", "Наличие в моче белков плазмы крови", "Появление в моче эритроцитов и их частей"], "correct": [2, 4]}, {"q": "Определите соединения, участвующие в свертывании крови?", "opts": ["Плазмин", "Тромбоциты", "Фибриноген", "Проконвертин", "Проакселерин"], "correct": [1, 2, 3, 4]}, {"q": "Определите ферменты, катализирующие первую и вторую реакции синтеза мочевины:", "opts": ["Орнитинкарбамоилтрансфераза", "Аргининосукцинат синтетаза", "Аргиназа", "Карбамоиллиаза", "Карбамоилфосфат синтетаза I"], "correct": [0, 4]}, {"q": "Органы-мишени для ПТГ", "opts": ["сердце", "кости", "печень", "почка", "поджелудочная железа"], "correct": [1, 3]}, {"q": "Основные три способа переноса веществ через мембрану клетки", "opts": ["Активный транспорт", "Эндоцитоз", "Простая и облегченная диффузия", "Гликолиз", "Липолиз"], "correct": [0, 1, 2]}, {"q": "Основные три функции мембранных белков", "opts": ["Синтез витаминов", "Катализ", "Пластическая, транспортная", "Секреция", "Рецепция"], "correct": [1, 2, 4]}, {"q": "Основные три этапа изменения  продуктов в процессе метаболизма?", "opts": ["Потребление и переваривание  пищи", "Выбор продуктов", "Промежуточный обмен", "Выделение конечных продуктов", "Поглощение конечных продуктов"], "correct": [0, 2, 3]}, {"q": "Основные ферменты, участвующие в обмене нуклеиновых кислот?", "opts": ["ДНКаза", "РНКаза", "ДНК синтетаза", "Нуклеотидаза"], "correct": [0, 1, 3]}, {"q": "Основные функции белков:", "opts": ["Строительная", "Энергетическая", "Защитная", "Каталитическая", "Регуляторная"], "correct": [0, 1, 2, 3, 4]}, {"q": "Паратгормон индуцирует", "opts": ["синтез кальцитриола", "синтез инсулина", "реабсорбцию калция", "синтез кортизола", "синтез ТТГ"], "correct": [0, 2]}, {"q": "По каким причинам начинается вторичная гиперурикемия?", "opts": ["При некоторых заболеваниях крови и почек", "При заболеваниях печени", "При отравлении свинцом", "При диабете"], "correct": [0, 1, 2]}, {"q": "Правильные характеристики для рибонуклеотид редуктазы:", "opts": ["Образует предшественники РНК → ДНК", "Требует NADPH", "Работает только в митохондриях", "Имеет регуляцию"], "correct": [0, 1, 3]}, {"q": "Препараты, применяемые для лечения подагры?", "opts": ["Аллопуринол", "Структурные аналоги гипоксантина", "Уридин", "Канефрон"], "correct": [0, 1]}, {"q": "При галактоземии  наблюдается  дефицит каких ферментов?", "opts": ["Гексокиназа", "Галактокиназа", "Галактозо-1-фосфатуридилтрансфераза", "4-Эпимераза"], "correct": [1, 2, 3]}, {"q": "При гипертиреозе возможны", "opts": ["Отрицательный азотистый баланс", "Усиление липолиза", "Повышение уровня холестерина", "Усиление глюконеогенеза", "Повышение теплопродукции"], "correct": [0, 1, 3, 4]}, {"q": "При дефиците йода наблюдается", "opts": ["Снижение синтеза Т3 и Т4", "Повышение ТТГ", "Гиперплазия щитовидной железы", "Повышение основного обмена", "Усиление захвата йода"], "correct": [0, 1, 2, 4]}, {"q": "При диабетическом кетоацидозе наблюдается", "opts": ["Усиление липолиза", "Повышение бета окисления", "Метаболический алкалоз", "Повышение ацетоаетата", "Дефицит инсулина"], "correct": [0, 1, 3, 4]}, {"q": "При инсулинорезистентности наблюдается", "opts": ["Снижение тирозинкиназной активности", "Повышение транслокаии ГЛЮТ 4", "Сериновые фосфорилирование IRS", "Повышение уровня свободных жирных кислот", "Активация протеинкиназы В"], "correct": [0, 2, 3]}, {"q": "При каких заболеваниях не наблюдается креатинурия?", "opts": ["При мышечной дистрофии", "При заболеваниях сердца", "При анемии", "При нефрите", "При гепатите"], "correct": [1, 2, 3, 4]}, {"q": "При катаболизме происходит:", "opts": ["Образование жиров из глицерина", "Образование ПВК из глюкозы", "Образование АТФ", "Образование ПВК из аминокислот", "Образование ацетил КоА из жирных кислот"], "correct": [1, 4]}, {"q": "При механической желтухе …?", "opts": ["Нарушается отток желчи", "Возрастает содержание связанного и несвязанного билирубина в крови", "Нарушается транспорт несвязанного билирубина", "Нарушается конъюгация с глюкуроновой кислотой"], "correct": [0, 1]}, {"q": "При полном удалении печени, содержание какого вещества уменьшится в крови?", "opts": ["Альбумин", "креатин", "индикан", "аммиак"], "correct": [0, 3]}, {"q": "При тирозинемиях дефекты каких ферментов?", "opts": ["тирозинаминотрансфераза", "фумарилацетоацетатгидроксилаза", "Парагидроксифенилпируватдиоксигеназа", "гомогентизиндоксигеназа", "фенилаланингидроксилаза"], "correct": [0, 1, 2, 3]}, {"q": "Признаки болезни Хартнупа?", "opts": ["атаксия", "гипераминоацидурия", "пеллагроподобные поражения кожи", "психические изменения", "потемнение мочи"], "correct": [0, 1, 2, 3]}, {"q": "Продукты  катаболизма на втором этапе  превращаются в два  вещества:", "opts": ["Пируват", "Жирные кислоты", "Глицерин", "2-оксоглутарат", "Ацетил КоА"], "correct": [0, 4]}, {"q": "Пути распада нуклеотидов:", "opts": ["Участвуют фосфатазы", "Образуются нуклеозиды", "Образуются свободные основания", "Переходит в гликолиз"], "correct": [0, 1, 2]}, {"q": "С помощью каких рецепторов действуют катехоламины", "opts": ["α-адренергические", "Тирозинкиназные", "β-адренергические", "Г-белок рецепторы", "Стероидные"], "correct": [0, 2, 3]}, {"q": "Свойства карбамоилфосфат синтетазы II:", "opts": ["Требует АТФ", "Расположена в цитоплазме", "Участвует в синтезе пиримидина", "Расположена в митохондриях"], "correct": [0, 1, 2]}, {"q": "Серин используется в синтезе чего из перечисленного?", "opts": ["холин", "креатин", "сфингозин", "в синтезе пуриновых и пиримидиновых оснований", "в синтезе порфиринового кольца"], "correct": [0, 2, 3]}, {"q": "Способы переноса веществ через мембрану", "opts": ["Липидное строение бислоя", "Участие пентоз", "Участие белков переносчиков", "Наличие специфических каналов", "Участие ДНК"], "correct": [2, 3]}, {"q": "Типы дезаминирования:", "opts": ["Восстановительное", "Гидролитическое", "Межмолекулярное", "Окислительное", "За счёт конденсации"], "correct": [0, 1, 3, 4]}, {"q": "Типы декарбоксилирования аминокислот в живых организмах:", "opts": ["альфа-декарбоксилирование", "омега-декарбоксилирование", "Декарбоксилирование, связанное с трансаминированием", "окислительное дезаминирование", "трансаминирование"], "correct": [0, 2]}, {"q": "Укажите 3 фермента, не участвующих в обезвреживании билирубина:", "opts": ["Метгемоглобинредуктаза", "Гемоксигеназа", "УДФ-глюкуронилтрансфераза", "Глюкозо-1-фосфатуридилтрансфераза", "Билирубинкиназа"], "correct": [0, 3, 4]}, {"q": "Укажите причину и следствие гемолитической желтухи:", "opts": ["Усиливается распад гемоглобина", "Резко возрастает количество непрямого билирубина в крови", "В моче появляется билирубин", "Возрастает количество прямого билирубина в крови"], "correct": [0, 1]}, {"q": "Укажите продукты, образующиеся из РНК под действием панкреатической РНКазы?", "opts": ["Полинуклеотид", "Мононуклеотид", "Дитринуклеотид", "Олигонуклеотид"], "correct": [1, 3]}, {"q": "Укажите процессы, связанные с обезвреживанием продуктов гниения аминокислот в печени и кишечнике:", "opts": ["Конъюгация с глюкуроновой кислотой", "Конъюгация с остатком сульфата", "Конъюгация с глицином", "Связывание NH3", "Связывание CO2, действие декарбоксилаз"], "correct": [0, 1, 2]}, {"q": "Укажите ферменты, участвующие в синтезе ГМФ ?", "opts": ["АМФ дегидрогеназа", "ИМФ дегидрогеназа", "ГМФ синтетаза", "АТФ синтетаза"], "correct": [1, 2]}, {"q": "Укажите функции ЛПBП?", "opts": ["Переносит холестерин из тканей в печень", "Переносит холестерин из печени в ткани", "Переносит холестерин с поверхности периферических клеток в печень", "ереносит эндогенные триглицериды"], "correct": [0, 2]}, {"q": "Фенилкетонурия протекает с увеличением в моче количества каких метаболитов альтернативного пути из перечисленных?", "opts": ["фенилпируват", "фенилацетат", "фениллактат", "фенилацетилглутамин", "гомогентизиновая кислота"], "correct": [0, 1, 2, 3]}, {"q": "Ферменты немикросомального окисления ксенобиотиков?", "opts": ["Пиридинзависимая дегидрогеназа", "Моноаминоксидаза", "Цитохром с-редуктаза", "НАДН-дегидрогеназа"], "correct": [0, 1, 3]}, {"q": "Ферменты, препятствующие превращению гемоглобина в метгемоглобин и образованию активных форм кислорода:", "opts": ["Каталаза", "Глутатионпероксидаза", "Глюкозо-6-фосфат дегидрогеназа", "Гексокиназа"], "correct": [0, 1, 2]}, {"q": "Ферменты, участвующие в гликогенезе", "opts": ["Гликогенфосфорилаза", "Гликогенсинтетаза", "Фосфоглюкомутаза", "Фермент ветвления"], "correct": [1, 2, 3]}, {"q": "Ферменты, участвующие в гликогенолизе", "opts": ["Гликогенфосфорилаза", "Амило-1,6-глюкозидаза", "Фосфоглюкомутаза", "Фермент ветвления"], "correct": [0, 1, 2]}, {"q": "Ферменты, участвующие в образовании УМФ из карбамоиласпартата?", "opts": ["Аспартат карбамоилфосфат трансфераза", "Оротатфосфорибозилтрансфераза", "ОМФдекарбоксилаза", "Дигидроорортатдегидрогеназа"], "correct": [1, 2, 3]}, {"q": "Ферменты, участвующие в последней стадии образования УМФ из дигидрооротовой кислоты?", "opts": ["Аспартат карбамоилфосфат трансфераза", "Оротатфосфорибозилтрансфераза", "ОМФдекарбоксилаза", "Дигидроорортатдегидрогеназа"], "correct": [1, 2]}, {"q": "Ферменты, участвующие в распаде пуринов:", "opts": ["Ксантиноксидаза", "Аденозин дезаминаза", "Нуклеозид фосфорилаза", "ДНК полимераза"], "correct": [0, 1, 2]}, {"q": "Ферменты, участвующие в стадии до образования дигидрооротата в синтезе УМФ?", "opts": ["Оротатфосфорибозилтрансфераза", "Аспартаткарбамоилтрансфераза", "Карбамоилфосфатсинтетаза", "Дигидрооротаза"], "correct": [1, 2, 3]}, {"q": "Фруктоземия может быть вызвана генетическим дефектом каких ферментов?", "opts": ["Фосфофруктокиназа", "Фруктокиназа", "Альдолаза А", "Альдолаза B"], "correct": [1, 3]}, {"q": "Функции апопротеинов:", "opts": ["Регуляторная", "Структурная", "Катаболическая", "Защитная"], "correct": [0, 1]}, {"q": "Функции гистамина в организме человека:", "opts": ["Стимулирует секрецию желудочного сока, слюны", "Вызывает отёк", "Выполняет функцию нейромедиатора", "Вызывает аллергическую реакцию", "Снижает артериальное давление"], "correct": [0, 1, 2, 3, 4]}, {"q": "Характеристики дезоксирибонуклеазы I?", "opts": ["Содержит 343 остатка аминокислот", "Имеет активность при pH=6.8-8.0", "Активируется ионом Mg +2", "Молекулярный вес 38000 D"], "correct": [0, 1, 2, 3]}, {"q": "Характеристики дезоксирибонуклеазы II?", "opts": ["Содержит 257 остатков аминокислот", "Имеет активность при pH=5.5-5.8", "Активируется анионами", "Молекулярный вес 38000 D"], "correct": [0, 1, 2]}, {"q": "Характеристики синтеза пиримидинового кольца:", "opts": ["Сначала синтезируется кольцо", "Затем присоединяется к рибозе", "Фосфорибозилпирофосфат необходим на первом этапе", "Происходит в цитоплазме"], "correct": [0, 1, 3]}, {"q": "Хиломикроны это ..?", "opts": ["Крупная частица с большой оболочкой и маленьким ядром", "Частица, содержащая большое количество экзогенных липидов", "Крупная частица с маленькой оболочкой и большим ядром", "Частица, содержащая большое количество белка"], "correct": [1, 2]}, {"q": "Чего из перечисленного не бывает в сыворотке крови?", "opts": ["Эритроциты", "Лейкоциты", "Тромбоциты", "Фибриноген", "Белок"], "correct": [0, 1, 2, 3]}, {"q": "Чем активируется фермент пепсиноген?", "opts": ["Пепсином", "Трипсином", "Трипсиногеном", "Пепсиногеном", "HCl"], "correct": [0, 4]}, {"q": "Четыре конечных продукта метаболизма", "opts": ["Двуокись  углерода,", "Вода,", "Мочевина", "Белок", "ATФ"], "correct": [0, 1, 2, 4]}, {"q": "Что выделяется при снижении уровня кальция в крови?", "opts": ["кальцитонин", "паратиреоидный гормон", "кальцитриол", "АКТГ", "ТТГ"], "correct": [1, 2]}, {"q": "Что характерно для синдрома Леша-Нихана?", "opts": ["Аутосомно-доминантное заболевание", "Х-сцепленное рецессивное заболевание", "Наблюдается церебральный паралич", "Больной кусает губы и пальцы до крови"], "correct": [1, 2, 3]}];
 const LABELS = ['A','B','C','D','E'];
-
 let quiz = [], current = 0, score = 0, partialScore = 0;
-let selected = new Set();
-let answered = false;
+let selected = new Set(), answered = false, isUnknownMode = false;
 
 function shuffle(arr) {
   const a = [...arr];
@@ -339,9 +256,13 @@ function showScreen(id) {
   document.getElementById(id).classList.add('active');
 }
 
-function startQuiz(count) {
-  const valid = QUESTIONS.filter(q => q.correct && q.correct.length > 0 && q.opts.length >= 2);
-  quiz = count > 0 ? shuffle(valid).slice(0, count) : shuffle(valid);
+function startQuiz(mode) {
+  const withAns = QUESTIONS.filter(q => Array.isArray(q.correct) && q.correct.length > 0);
+  const noAns   = QUESTIONS.filter(q => !Array.isArray(q.correct) || q.correct.length === 0);
+  isUnknownMode = (mode === 'unknown');
+  if (mode === 'random')   quiz = shuffle(withAns).slice(0, 20);
+  else if (mode === 'all') quiz = shuffle(withAns);
+  else                     quiz = shuffle(noAns);
   current = 0; score = 0; partialScore = 0;
   showScreen('quiz-screen');
   renderQuestion();
@@ -350,22 +271,22 @@ function startQuiz(count) {
 function renderQuestion() {
   const q = quiz[current];
   const total = quiz.length;
-  const correctCount = q.correct.length;
+  const correctIndices = Array.isArray(q.correct) ? q.correct : [];
+  const hasAnswer = correctIndices.length > 0;
 
   document.getElementById('q-counter').textContent = `Вопрос ${current+1} / ${total}`;
   document.getElementById('score-num').textContent = score;
-  document.getElementById('progress-fill').style.width = `${(current/total)*100}%`;
+  document.getElementById('progress-fill').style.width = `${(current / total) * 100}%`;
   document.getElementById('question-text').textContent = q.q;
 
-  // Multi-answer badge
-  const badge = document.getElementById('multi-badge');
-  const hint = document.getElementById('correct-count-hint');
-  if (correctCount === 1) {
-    badge.style.display = 'none';
-  } else {
-    badge.style.display = 'inline-flex';
-    hint.textContent = correctCount;
-  }
+  // Unknown banner
+  const ub = document.getElementById('unknown-banner');
+  ub.className = hasAnswer ? 'unknown-banner' : 'unknown-banner show';
+
+  // Multi-badge
+  const mb = document.getElementById('multi-badge');
+  document.getElementById('correct-count-hint').textContent = correctIndices.length;
+  mb.className = (hasAnswer && correctIndices.length > 1) ? 'multi-badge show' : 'multi-badge';
 
   selected = new Set();
   answered = false;
@@ -375,31 +296,37 @@ function renderQuestion() {
   fb.textContent = '';
 
   const btnCheck = document.getElementById('btn-check');
-  const btnNext = document.getElementById('btn-next');
+  const btnNext  = document.getElementById('btn-next');
+  btnCheck.style.display = isUnknownMode ? 'none' : '';
   btnCheck.disabled = true;
-  btnCheck.style.display = '';
   btnNext.classList.remove('visible');
+  if (isUnknownMode) btnNext.classList.add('visible');
 
   const list = document.getElementById('options-list');
   list.innerHTML = '';
 
   q.opts.forEach((opt, i) => {
+    const isCorrect = correctIndices.includes(i);
     const btn = document.createElement('button');
     btn.className = 'option-btn';
-    btn.dataset.idx = i;
-    const isCorrect = q.correct.includes(i);
-    btn.innerHTML = `
-      <span class="opt-letter">${LABELS[i] || (i+1)}</span>
-      <span class="opt-text">${opt}</span>
-      <span class="opt-icon">${isCorrect ? '✓' : '✕'}</span>
-    `;
+    btn.dataset.idx = String(i);
+    btn.dataset.correct = isCorrect ? '1' : '0';
+    btn.innerHTML =
+      `<span class="opt-letter">${LABELS[i] || (i+1)}</span>` +
+      `<span class="opt-text">${opt}</span>` +
+      `<span class="opt-icon">${isCorrect ? '✓' : '✕'}</span>`;
     btn.querySelector('.opt-icon').style.opacity = '0';
-    btn.addEventListener('click', () => toggleOption(i, btn, correctCount));
+
+    if (isUnknownMode) {
+      btn.disabled = true;
+    } else {
+      btn.addEventListener('click', function() { toggleOption(i, this); });
+    }
     list.appendChild(btn);
   });
 }
 
-function toggleOption(idx, btn, correctCount) {
+function toggleOption(idx, btn) {
   if (answered) return;
   if (selected.has(idx)) {
     selected.delete(idx);
@@ -416,54 +343,46 @@ function checkAnswer() {
   answered = true;
 
   const q = quiz[current];
-  const correctSet = new Set(q.correct);
-  const btns = document.querySelectorAll('.option-btn');
-  btns.forEach(b => b.disabled = true);
+  const correctIndices = Array.isArray(q.correct) ? q.correct : [];
+  const correctSet = new Set(correctIndices);
 
-  // Reveal all
-  btns.forEach((btn, i) => {
-    const icon = btn.querySelector('.opt-icon');
-    const isCorrect = correctSet.has(i);
+  const btns = document.querySelectorAll('#options-list .option-btn');
+  btns.forEach(function(btn) { btn.disabled = true; });
+
+  btns.forEach(function(btn, i) {
+    const isCorrect = btn.dataset.correct === '1';
     const wasSelected = selected.has(i);
+    const icon = btn.querySelector('.opt-icon');
 
-    if (isCorrect && wasSelected) {
-      btn.classList.remove('selected');
-      btn.classList.add('correct');
+    btn.classList.remove('selected');
+
+    if (isCorrect) {
+      btn.classList.add('state-correct');
       icon.style.opacity = '1';
-    } else if (isCorrect && !wasSelected) {
-      // missed correct — show as correct anyway
-      btn.classList.add('correct');
-      icon.style.opacity = '1';
-    } else if (!isCorrect && wasSelected) {
-      btn.classList.remove('selected');
-      btn.classList.add('wrong');
+    } else if (wasSelected) {
+      btn.classList.add('state-wrong');
       icon.style.opacity = '1';
     }
   });
 
-  // Score calculation
-  const selectedArr = [...selected];
-  const correctArr = [...correctSet];
-
-  const truePositives = selectedArr.filter(i => correctSet.has(i)).length;
-  const falsePositives = selectedArr.filter(i => !correctSet.has(i)).length;
-  const falseNegatives = correctArr.filter(i => !selected.has(i)).length;
-
-  const isPerfect = truePositives === correctArr.length && falsePositives === 0;
-  const isPartial = truePositives > 0 && !isPerfect;
+  const selArr = [...selected];
+  const truePos  = selArr.filter(i => correctSet.has(i)).length;
+  const falsePos = selArr.filter(i => !correctSet.has(i)).length;
+  const isPerfect = truePos === correctIndices.length && falsePos === 0;
+  const isPartial = truePos > 0 && !isPerfect;
 
   const fb = document.getElementById('feedback-bar');
   if (isPerfect) {
     score++;
     fb.className = 'feedback-bar ok show';
-    fb.textContent = '✅ Правильно! Все верные ответы выбраны.';
+    fb.textContent = '✅ Все правильные ответы выбраны!';
   } else if (isPartial) {
     partialScore++;
     fb.className = 'feedback-bar partial show';
-    fb.textContent = `⚠️ Частично верно. Правильных: ${truePositives}/${correctArr.length}. Ошибочных: ${falsePositives}.`;
+    fb.textContent = `⚠️ Частично: ${truePos}/${correctIndices.length} верных, ${falsePos} лишних.`;
   } else {
     fb.className = 'feedback-bar fail show';
-    fb.textContent = `❌ Неверно. Правильных ответов: ${correctArr.length}.`;
+    fb.textContent = `❌ Неверно. Правильных ответов: ${correctIndices.length}.`;
   }
 
   document.getElementById('score-num').textContent = score;
@@ -473,32 +392,30 @@ function checkAnswer() {
 
 function nextQuestion() {
   current++;
-  if (current >= quiz.length) {
-    showResult();
-  } else {
-    renderQuestion();
-  }
+  if (current >= quiz.length) showResult();
+  else renderQuestion();
 }
 
 function showResult() {
   const total = quiz.length;
-  const pct = Math.round((score / total) * 100);
-
+  const pct = isUnknownMode ? 0 : Math.round((score / total) * 100);
   let emoji, title;
-  if (pct >= 90) { emoji = '🏆'; title = 'Превосходно!'; }
-  else if (pct >= 75) { emoji = '🎉'; title = 'Отличный результат!'; }
-  else if (pct >= 60) { emoji = '👍'; title = 'Хороший результат!'; }
-  else if (pct >= 40) { emoji = '📖'; title = 'Нужно повторить'; }
-  else { emoji = '💪'; title = 'Продолжай учиться!'; }
+  if (isUnknownMode)   { emoji = '📖'; title = 'Вопросы просмотрены!'; }
+  else if (pct >= 90)  { emoji = '🏆'; title = 'Превосходно!'; }
+  else if (pct >= 75)  { emoji = '🎉'; title = 'Отличный результат!'; }
+  else if (pct >= 60)  { emoji = '👍'; title = 'Хорошо!'; }
+  else if (pct >= 40)  { emoji = '📖'; title = 'Нужно повторить'; }
+  else                 { emoji = '💪'; title = 'Продолжай учиться!'; }
 
   document.getElementById('result-emoji').textContent = emoji;
   document.getElementById('result-title').textContent = title;
-  document.getElementById('result-sub').textContent = `Тест из ${total} вопросов завершён`;
+  document.getElementById('result-sub').textContent = isUnknownMode
+    ? `Просмотрено ${total} вопросов без ответов`
+    : `Тест из ${total} вопросов завершён`;
   document.getElementById('res-correct').textContent = score;
   document.getElementById('res-partial').textContent = partialScore;
   document.getElementById('res-total').textContent = total;
-  document.getElementById('res-pct').textContent = pct + '%';
-
+  document.getElementById('res-pct').textContent = isUnknownMode ? '—' : pct + '%';
   showScreen('result-screen');
 }
 
